@@ -15,3 +15,6 @@ audio.*
 .DS_Store
 __pycache__/
 .venv/
+
+# 本地预览配置(python -m http.server 不支持 Range,会让视频 seek 失效)
+.claude/
