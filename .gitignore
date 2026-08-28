@@ -1,0 +1,17 @@
+# 媒体本体与完整转写：不进公开仓库（版权 + 体积）
+*.mp4
+*.mp3
+*.m4a
+*.wav
+*.mov
+transcript.srt
+transcript.txt
+blocks.txt
+audio.*
+
+# 中间产物
+*.part
+*.ytdl
+.DS_Store
+__pycache__/
+.venv/

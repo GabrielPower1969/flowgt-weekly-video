@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>本周最佳视频 · AI 时代找工作的难度｜Ethan（Jobright CTO）观点提炼</title>
+<style>
+:root{
+  --bg:#0c0d10; --bg-top:#08090b; --panel:#15171c; --panel-end:#111318; --panel2:#1c1f26;
+  --ink:#eceff5; --muted:#98a0b0; --line:#242832; --line2:#333947;
+  --brand:#f3a626;        /* 琥珀：本周视频主色 */
+  --brand2:#4fd1c5;       /* 青：次级强调 */
+  --brand3:#ff7a59;       /* 珊瑚：警示/难度 */
+  --good:#4ade80; --warn:#f3a626; --bad:#ff6b7a;
+  --quote-ink:#cfd5e0; --chip:#1b1e25;
+  --glow1:rgba(243,166,38,.10); --glow2:rgba(79,209,197,.07);
+  --radius:16px; --maxw:1220px;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 34px -18px rgba(0,0,0,.6);
+  --serif:"Georgia","Songti SC","Noto Serif SC",serif;
+}
+:root[data-theme="light"]{
+  --bg:#f6f5f1; --bg-top:#fffdf9; --panel:#ffffff; --panel-end:#fbfaf7; --panel2:#f1efe9;
+  --ink:#1a1c22; --muted:#61697a; --line:#e3e0d8; --line2:#cfcbc0;
+  --brand:#b9761a; --brand2:#0f8a80; --brand3:#d6512f;
+  --good:#12885a; --warn:#a56a10; --bad:#cf2f45;
+  --quote-ink:#3a4150; --chip:#f1efe9;
+  --glow1:rgba(185,118,26,.07); --glow2:rgba(15,138,128,.05);
+  --shadow:0 1px 2px rgba(20,20,20,.05),0 12px 28px -18px rgba(20,20,20,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;color:var(--ink);
+  background:
+    radial-gradient(900px 460px at 12% -6%,var(--glow1),transparent 62%),
+    radial-gradient(760px 420px at 92% 2%,var(--glow2),transparent 60%),
+    linear-gradient(180deg,var(--bg-top),var(--bg) 320px);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+::selection{background:rgba(243,166,38,.28)}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:32px 22px 120px}
+.grid{display:grid;grid-template-columns:250px 1fr;gap:38px;align-items:start}
+/* grid item 默认 min-width:auto,里面的宽表格会把整列撑爆 → 必须归零,否则手机上整页横滚 */
+.grid>*{min-width:0}
+@media(max-width:980px){.grid{grid-template-columns:1fr;gap:18px}}
+
+/* ---------- header ---------- */
+header.hero{margin-bottom:26px}
+.kicker{color:var(--brand);font-weight:800;letter-spacing:.24em;text-transform:uppercase;font-size:11px}
+h1{font-size:clamp(26px,3.4vw,40px);line-height:1.24;margin:10px 0 12px;letter-spacing:-.02em;font-weight:850}
+h1 .thin{color:var(--muted);font-weight:600}
+.sub{color:var(--muted);font-size:15px;max-width:76ch;margin:0 0 16px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pill{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:12.5px;color:var(--muted)}
+.pill b{color:var(--ink);font-weight:650}
+.pill.hi{border-color:rgba(243,166,38,.4);background:rgba(243,166,38,.09);color:var(--brand)}
+
+/* ---------- sidebar ---------- */
+.toc{position:sticky;top:18px;background:linear-gradient(180deg,var(--panel),var(--panel-end));
+  border:1px solid var(--line);border-radius:var(--radius);padding:14px 10px;
+  max-height:calc(100vh - 36px);overflow:auto;box-shadow:var(--shadow)}
+.toc::-webkit-scrollbar{width:7px}
+.toc::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+.toc .tt{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:4px 12px 9px}
+.toc a{display:flex;gap:9px;align-items:baseline;color:var(--muted);padding:7px 11px;border-radius:9px;
+  font-size:13px;transition:.16s;border-left:2px solid transparent;line-height:1.45}
+.toc a:hover{background:var(--panel2);color:var(--ink);text-decoration:none}
+.toc a.active{background:linear-gradient(90deg,rgba(243,166,38,.16),rgba(243,166,38,.02));color:var(--ink);border-left-color:var(--brand)}
+.toc a .n{color:var(--brand);font-variant-numeric:tabular-nums;font-size:11px;min-width:16px;font-weight:800;opacity:.85}
+.toc .sep{height:1px;background:var(--line);margin:9px 12px}
+@media(max-width:980px){.toc{position:static;max-height:none}}
+
+/* ---------- sections ---------- */
+section{scroll-margin-top:20px;padding-top:14px}
+h2{font-size:21px;margin:34px 0 6px;display:flex;align-items:center;gap:11px;letter-spacing:-.01em;font-weight:800}
+h2 .idx{color:var(--brand);font-size:12px;font-weight:800;border:1px solid var(--line2);border-radius:9px;
+  padding:3px 9px;background:linear-gradient(180deg,var(--panel2),var(--panel));font-variant-numeric:tabular-nums}
+h3{font-size:16px;margin:22px 0 8px;font-weight:750}
+.lead{color:var(--muted);margin:0 0 18px;font-size:14.5px;max-width:74ch}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel-end));border:1px solid var(--line);
+  border-radius:var(--radius);padding:20px 22px;margin:16px 0;box-shadow:var(--shadow)}
+.card.tight{padding:16px 18px}
+p{margin:10px 0}
+ul.clean{padding-left:20px;margin:10px 0}
+ul.clean li{margin:7px 0}
+ul.clean li::marker{color:var(--brand)}
+b,strong{font-weight:700}
+.hl{color:var(--brand);font-weight:700}
+.hl2{color:var(--brand2);font-weight:700}
+
+/* ---------- play buttons ---------- */
+.pb{display:inline-flex;align-items:center;gap:5px;background:rgba(243,166,38,.13);
+  border:1px solid rgba(243,166,38,.34);color:var(--brand);border-radius:8px;
+  padding:2px 9px;font-size:11.5px;font-weight:750;font-variant-numeric:tabular-nums;
+  cursor:pointer;transition:.15s;font-family:inherit;vertical-align:1px}
+.pb::before{content:"\25B6";font-size:8px;transform:translateY(-.5px)}
+.pb:hover{background:rgba(243,166,38,.3);transform:translateY(-1px)}
+.pb.playing{background:var(--brand);color:#14161a;border-color:var(--brand)}
+.pb.playing::before{content:"\25AE\25AE";letter-spacing:-2px;font-size:7.5px}
+
+/* ---------- quotes ---------- */
+.quote{border-left:3px solid var(--brand);background:var(--panel2);padding:11px 15px;
+  border-radius:0 10px 10px 0;margin:12px 0;font-size:14px;color:var(--quote-ink);line-height:1.72}
+.quote .who{display:block;color:var(--muted);font-size:11.5px;letter-spacing:.05em;margin-top:6px}
+.quote.t2{border-left-color:var(--brand2)}
+.quote.t3{border-left-color:var(--brand3)}
+
+/* ---------- takeaway cards (顶部最有价值) ---------- */
+.takes{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:14px;margin-top:6px}
+.take{background:linear-gradient(180deg,var(--panel),var(--panel-end));border:1px solid var(--line);
+  border-radius:14px;padding:17px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.take::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--brand),var(--brand2))}
+.take .n{font-size:11px;font-weight:850;color:var(--brand);letter-spacing:.16em}
+.take h4{margin:6px 0 7px;font-size:15.5px;font-weight:800;line-height:1.45}
+.take p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.7}
+.take .foot{margin-top:10px}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:linear-gradient(180deg,var(--panel),var(--panel-end));border:1px solid var(--line);
+  border-radius:13px;padding:15px 16px;box-shadow:var(--shadow)}
+.stat .num{font-size:27px;font-weight:850;font-variant-numeric:tabular-nums;letter-spacing:-.025em;line-height:1.2}
+.stat .num.bad{color:var(--brand3)} .stat .num.good{color:var(--brand2)} .stat .num.warn{color:var(--brand)}
+.stat .cap{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.55}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px;background:var(--panel)}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--panel2);font-weight:750;font-size:12px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
+tr:last-child td{border-bottom:0}
+td .tag{font-size:10.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--line2);font-weight:700;white-space:nowrap}
+.tag.hard{color:var(--brand3);border-color:rgba(255,122,89,.42);background:rgba(255,122,89,.1)}
+.tag.mid{color:var(--brand);border-color:rgba(243,166,38,.42);background:rgba(243,166,38,.1)}
+.tag.ok{color:var(--brand2);border-color:rgba(79,209,197,.42);background:rgba(79,209,197,.1)}
+
+/* ---------- signal / checklist ---------- */
+.chk{list-style:none;padding:0;margin:10px 0}
+.chk li{padding:11px 0 11px 34px;position:relative;border-top:1px dashed var(--line)}
+.chk li:first-child{border-top:0}
+.chk li::before{content:"";position:absolute;left:2px;top:16px;width:15px;height:15px;border-radius:5px;
+  border:2px solid var(--brand);background:rgba(243,166,38,.1)}
+.chk li b{color:var(--ink)}
+.chk li .why{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:10px 0}
+ol.steps li{counter-increment:s;position:relative;padding:12px 0 12px 44px;border-top:1px solid var(--line)}
+ol.steps li:first-child{border-top:0}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:9px;
+  background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line2);color:var(--brand);
+  font-weight:850;display:flex;align-items:center;justify-content:center;font-size:13px}
+
+/* ---------- callout ---------- */
+.callout{background:linear-gradient(120deg,rgba(243,166,38,.12),rgba(79,209,197,.05));
+  border:1px solid rgba(243,166,38,.3);border-radius:var(--radius);padding:19px 21px;margin:18px 0;box-shadow:var(--shadow)}
+.callout h3{margin-top:0;color:var(--brand)}
+.note{border:1px dashed var(--line2);border-radius:12px;padding:13px 16px;margin:16px 0;
+  font-size:13px;color:var(--muted);background:var(--panel2)}
+.note b{color:var(--ink)}
+.editor{border-left:3px solid var(--brand2);background:rgba(79,209,197,.06);border-radius:0 12px 12px 0;
+  padding:13px 16px;margin:14px 0}
+.editor .tt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand2);font-weight:800}
+.editor p{margin:6px 0 0;font-size:14px}
+
+/* ---------- formula ---------- */
+.formula{font-family:var(--serif);font-size:19px;text-align:center;padding:18px 10px;color:var(--ink);
+  background:var(--panel2);border:1px solid var(--line);border-radius:12px;margin:14px 0;line-height:1.7}
+.formula em{color:var(--brand);font-style:normal;font-weight:800}
+.formula .x{color:var(--muted);margin:0 8px}
+
+/* ---------- quotebank ---------- */
+.qb{display:grid;gap:10px}
+.qbi{display:grid;grid-template-columns:92px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--line);align-items:start}
+.qbi:first-child{border-top:0}
+.qbi .t{padding-top:2px}
+.qbi .s{font-size:14.5px;font-family:var(--serif);color:var(--quote-ink);line-height:1.7}
+@media(max-width:640px){.qbi{grid-template-columns:1fr;gap:5px}}
+
+/* ---------- player ---------- */
+#dock{position:fixed;right:18px;bottom:18px;z-index:80;width:min(380px,calc(100vw - 36px));
+  background:rgba(16,18,22,.96);border:1px solid var(--line2);border-radius:14px;
+  box-shadow:0 20px 50px -14px rgba(0,0,0,.7);overflow:hidden;transition:.2s;backdrop-filter:blur(8px)}
+:root[data-theme="light"] #dock{background:rgba(255,255,255,.97)}
+#dock .bar{display:flex;align-items:center;gap:9px;padding:7px 10px;border-bottom:1px solid var(--line);font-size:12px}
+#dock .bar .dot{width:7px;height:7px;border-radius:50%;background:var(--brand3);flex:none}
+#dock .bar .ttl{color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#dock .bar button{background:var(--chip);border:1px solid var(--line);color:var(--muted);border-radius:7px;
+  padding:2px 9px;font-size:11.5px;cursor:pointer;font-family:inherit}
+#dock .bar button:hover{color:var(--ink);border-color:var(--line2)}
+#dock .vid{position:relative;width:100%;aspect-ratio:16/9;background:#000}
+#dock .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+#dock.min .vid{display:none}
+#dock.min{width:min(230px,calc(100vw - 36px))}
+@media(max-width:640px){#dock{right:10px;left:10px;bottom:10px;width:auto}}
+
+/* ---------- theme toggle ---------- */
+#theme{position:fixed;right:18px;top:18px;z-index:90;background:var(--panel);border:1px solid var(--line2);
+  color:var(--muted);border-radius:10px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;
+  box-shadow:var(--shadow)}
+#theme:hover{color:var(--ink)}
+
+footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+footer a{color:var(--brand2)}
+</style>
+</head>
+<body>
+<button id="theme">☀︎ 浅色</button>
+
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">FLOWGT 每周最佳视频 · 第 01 期</div>
+  <h1>AI 时代找工作的难度，<span class="thin">远超你的想象</span></h1>
+  <p class="sub">
+    这一期我挑的是《课代表立正》对 <b>Jobright 联合创始人兼 CTO Ethan</b> 的访谈。
+    选它的原因很简单：市面上讲求职的内容多半是"心态鸡汤"或"简历模板"，
+    而 Ethan 手上握着<b>每天几十万条真实投递数据</b>——他说的每一句难，都是有分母的难。
+    下面这份报告只做一件事：<b>把 Ethan 的观点抽干净、排好序、配上原话可回放</b>。
+    最重要的结论放在最前面，往下越读越细。
+  </p>
+  <div class="pills">
+    <span class="pill hi">👤 嘉宾 <b>Ethan（Jobright CTO）</b></span>
+    <span class="pill">🎙 主持 <b>课代表立正</b></span>
+    <span class="pill">🕐 时长 <b>82 分钟</b></span>
+    <span class="pill">🗓 发布 <b>2026-08-12</b></span>
+    <span class="pill">✍️ 整理 <b>2026-08-28</b></span>
+    <span class="pill">🌐 语言 <b>中文</b></span>
+  </div>
+  <div class="note" style="margin-top:16px">
+    <b>怎么用这份报告：</b>正文里每个 <button class="pb" data-t="386">06:26</button> 这样的按钮都可以点——
+    右下角的播放器会<b>直接跳到那一秒</b>，画面和声音一起对上，你可以立刻听原话、判断我有没有转述歪。
+    右下角播放器可以折叠。全文结论一律标注了时间戳，<b>没有时间戳的段落就是我的编者按</b>（青色块）。
+  </div>
+</header>
+
+<div class="grid">
+<!-- ============ 侧边栏 ============ -->
+<nav class="toc" id="toc">
+  <div class="tt">目录</div>
+  <a href="#tldr"><span class="n">00</span><span>先看这个：8 条最重要的结论</span></a>
+  <div class="sep"></div>
+  <a href="#market"><span class="n">01</span><span>市场到底有多难（有数据）</span></a>
+  <a href="#math"><span class="n">02</span><span>海投还是精投：那个公式</span></a>
+  <a href="#signal"><span class="n">03</span><span>怎么被看见：AI native 的信号</span></a>
+  <a href="#groups"><span class="n">04</span><span>五类人群，五套打法</span></a>
+  <a href="#future"><span class="n">05</span><span>公司真正想要的两种人</span></a>
+  <a href="#hiring"><span class="n">06</span><span>招聘方式在变：试工时代</span></a>
+  <a href="#mind"><span class="n">07</span><span>心态：被拒 ≠ 你不行</span></a>
+  <div class="sep"></div>
+  <a href="#founder"><span class="n">08</span><span>给想创业/做产品的人</span></a>
+  <a href="#action"><span class="n">09</span><span>本周行动清单（编者）</span></a>
+  <a href="#quotes"><span class="n">10</span><span>金句索引（可回放）</span></a>
+  <a href="#source"><span class="n">11</span><span>来源与口径</span></a>
+</nav>
+
+<!-- ============ 正文 ============ -->
+<main>
+
+<!-- ============================================================ -->
+<section id="tldr">
+  <h2><span class="idx">00</span>先看这个：8 条最重要的结论</h2>
+  <p class="lead">如果你只有 3 分钟，读这一屏就够。每条后面的按钮是 Ethan 说这句话的原始位置。</p>
+
+  <div class="takes">
+    <div class="take">
+      <div class="n">01 · 分母变了</div>
+      <h4>白领岗位数量是过去十年的最低点</h4>
+      <p>不是"你不行"，是池子小了。疫情后白领 job post 数量直线下跌，Ethan 说现在是过去 10 年的历史最低点，而且"后面还会越来越低"。</p>
+      <div class="foot"><button class="pb" data-t="386">06:26</button></div>
+    </div>
+    <div class="take">
+      <div class="n">02 · 机制</div>
+      <h4>问题不是没机会，是"双向噪音"</h4>
+      <p>AI 让投递变得太容易：求职者疯狂海投，HR 每天被几千份被 AI 润色得一模一样的简历淹没。两边都在噪音里失明。</p>
+      <div class="foot"><button class="pb" data-t="430">07:10</button></div>
+    </div>
+    <div class="take">
+      <div class="n">03 · 别自欺</div>
+      <h4>无策略的海投不是策略，是缓解焦虑</h4>
+      <p>Ethan 原话。但他同时承认另一半现实：new grad 平均要投 500–1000 份以上。所以答案不是"精投 or 海投"，是<b>高质量的量</b>。</p>
+      <div class="foot"><button class="pb" data-t="475">07:55</button> <button class="pb" data-t="565">09:25</button></div>
+    </div>
+    <div class="take">
+      <div class="n">04 · 算清楚</div>
+      <h4>命中率大概只有 1%，工具能提到 2–3%</h4>
+      <p>过去可能 15–20% 的回复率，现在掉到个位数。工具能给 3–5 倍提升，但仍是小数——<b>所以量必须补上去</b>。这就是那个公式。</p>
+      <div class="foot"><button class="pb" data-t="698">11:38</button></div>
+    </div>
+    <div class="take">
+      <div class="n">05 · 好消息</div>
+      <h4>有像样 GitHub 的 new grad 不到 3–5%</h4>
+      <p>Ethan 最扎心也最给人希望的一句：<b>"大部分 new grad 其实不是足够努力的。"</b> 天很黑，但你想在里面显得亮，其实不难。</p>
+      <div class="foot"><button class="pb" data-t="1012">16:52</button> <button class="pb" data-t="1056">17:36</button></div>
+    </div>
+    <div class="take">
+      <div class="n">06 · 定位</div>
+      <h4>公司只想要两种人：专家 or 全栈</h4>
+      <p>要么是能 <b>close the loop</b> 的 domain expert（AI 干 80–90%，最后 10% 只有专家收得了口），要么是 end-to-end 解决问题的 AI generalist。</p>
+      <div class="foot"><button class="pb" data-t="1573">26:13</button> <button class="pb" data-t="1638">27:18</button></div>
+    </div>
+    <div class="take">
+      <div class="n">07 · 流程变了</div>
+      <h4>轻简历、轻面试，改成"试工"</h4>
+      <p>越来越多公司（含 Cursor 这类）让你周末过去合作两天，付费 work trial。LeetCode + system design 那一套，Ethan 直说"有点过时了"。</p>
+      <div class="foot"><button class="pb" data-t="4576">76:16</button> <button class="pb" data-t="4621">77:01</button></div>
+    </div>
+    <div class="take">
+      <div class="n">08 · 心法</div>
+      <h4>把找工作当成一份全职工作</h4>
+      <p>这是他给 job seeker 唯一想澄清的误解：找工作不是"投简历"，是一个需要 strategy、优先级、复盘、AB 测试的复杂问题。</p>
+      <div class="foot"><button class="pb" data-t="1033">17:13</button> <button class="pb" data-t="4712">78:32</button></div>
+    </div>
+  </div>
+
+  <div class="editor">
+    <div class="tt">编者按 · 为什么这期值得你花 82 分钟</div>
+    <p>大部分求职内容的问题是<b>没有分母</b>：讲的人只见过自己那几十个 case。Ethan 的位置很特殊——他每天看到平台上几十万条投递数据，
+    同时又在<b>替公司筛人</b>，还在<b>自己招人</b>。三个视角叠在一起，他说"难"的时候，你知道那是统计意义上的难；
+    他说"其实不难被看见"的时候，你也知道那是有分母的乐观。这种视角一年碰不到几次，所以我把它选成本周第一期。</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="market">
+  <h2><span class="idx">01</span>市场到底有多难：数据、机制、体感</h2>
+  <p class="lead">先建立一个正确的世界模型。你现在的挫败，有多少是你的问题，有多少是结构的问题。</p>
+
+  <div class="stats">
+    <div class="stat"><div class="num bad">10 年最低</div><div class="cap">白领 job post 数量，疫情后直线下跌至十年低点<br><button class="pb" data-t="386">06:26</button></div></div>
+    <div class="stat"><div class="num warn">500–1000+</div><div class="cap">平台上 new grad 平均投递份数<br><button class="pb" data-t="565">09:25</button></div></div>
+    <div class="stat"><div class="num bad">1% → 2–3%</div><div class="cap">单次投递命中率：裸投 vs 用上工具<br><button class="pb" data-t="698">11:38</button></div></div>
+    <div class="stat"><div class="num good">&lt; 3–5%</div><div class="cap">有像样 GitHub 项目的 new grad 比例<br><button class="pb" data-t="1012">16:52</button></div></div>
+  </div>
+
+  <h3>1.1 池子为什么变小</h3>
+  <p>Ethan 拆成两层原因：一层是疫情期间的 <b>overhire</b> 在回吐；另一层是 <b>AI 降本增效</b>——
+  大公司的算盘是"裁掉一部分人，让 top performer 用 AI 把生产力提高 5–10 倍"。第二层是结构性的，短期不会反转。</p>
+  <div class="quote">
+    "自从疫情之后，白领的 job post 数量直线下跌，到现在其实是过去 10 年的历史最低点，可能后面还会越来越低。"
+    <span class="who">Ethan · <button class="pb" data-t="386">06:26</button></span>
+  </div>
+
+  <h3>1.2 真正的病因：双向噪音</h3>
+  <p>这是全片我认为最有解释力的一个概念。市场不是"没有需求"，而是<b>供需双方都被 AI 生成的噪音淹没了</b>：</p>
+  <ul class="clean">
+    <li><b>求职者侧：</b>AI 让投递成本趋近于零 → 疯狂海投 → 简历投进"黑洞"，还有大量 <b>ghost job</b> 连回响都没有 <button class="pb" data-t="408">06:48</button></li>
+    <li><b>HR 侧：</b>每天被几千份"被 AI 润色得一模一样"的简历淹没 → 只能更粗暴地筛 <button class="pb" data-t="452">07:32</button></li>
+    <li><b>连累公司侧：</b>Ethan 说很多公司干脆不在领英发岗了——发一个 entry level SWE，一天能收到一两千份申请，
+      排在最前面的清一色 NVIDIA / OpenAI / Anthropic 实习经历，<b>聊下来发现全是假的</b> <button class="pb" data-t="2970">49:30</button></li>
+  </ul>
+  <div class="quote t3">
+    "市场不是说没有机会，而是陷入了严重的、我们所谓的双向的噪音。"
+    <span class="who">Ethan · <button class="pb" data-t="430">07:10</button></span>
+  </div>
+  <div class="editor">
+    <div class="tt">编者按</div>
+    <p>把"双向噪音"这四个字记住，它能解释你 90% 的困惑：<b>为什么我投得越多回复越少</b>（因为你也在制造噪音）、
+    <b>为什么内推突然变得这么值钱</b>（因为它是穿透噪音的带宽）、<b>为什么小公司反而更难进</b>（因为它没有筛人的基础设施，只能靠信号）。
+    你接下来所有的动作，只有一个目标：<b>让自己不是噪音</b>。</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="math">
+  <h2><span class="idx">02</span>海投还是精投：把它变成一道数学题</h2>
+  <p class="lead">这是全片争论最激烈的一段——主持人主张"海投失效了，应该精投"，Ethan 说"你说得对，但是……"。两个人最后拼出了完整答案。</p>
+
+  <div class="formula">
+    拿到面试的次数 <span class="x">=</span> <em>投递数量</em> <span class="x">×</span> <em>单次命中率</em>
+  </div>
+  <p>Ethan 给的量级：不用任何工具、盲投，单次命中率大概 <b>1%</b>；用上好的匹配工具，能提到 <b>2–3%</b>（他说是 3–5 倍提升）。
+  听上去翻了番，但注意：<b>2% 依然是一个很小的数</b>。所以公式的另一半——量——你躲不掉。</p>
+  <div class="quote">
+    "我可能能帮你提升到 2%、3%，但这其实依旧是一个比较小的分数……所以你其实还是得把投递量补起来。"
+    <span class="who">Ethan · <button class="pb" data-t="698">11:38</button></span>
+  </div>
+
+  <h3>2.1 那"无策略海投"错在哪</h3>
+  <div class="quote t3">
+    "无策略的海投，很多时候不是一个策略，而是缓解你的焦虑。"
+    <span class="who">Ethan · <button class="pb" data-t="475">07:55</button></span>
+  </div>
+  <p>关键词是<b>"无策略"</b>，不是"海投"。Ethan 反复强调的是<b>每一次投递都是预算</b>：你一天只有 6–8 小时用于求职，
+  能投的份数天然有上限，所以每一份都要花在命中率更高的地方。</p>
+
+  <h3>2.2 影响命中率的几个变量（照着这个查漏）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>变量</th><th>怎么影响命中率</th><th>你今天能做什么</th></tr></thead>
+    <tbody>
+      <tr><td><b>投递时机</b></td><td>岗位刚发布 vs 发布几周后，差距巨大；有些岗位<b>一天内</b>因申请太多就被关掉</td><td>盯 job alert，做到"分钟级"响应 <button class="pb" data-t="1349">22:29</button></td></tr>
+      <tr><td><b>匹配度</b></td><td>公司/职能/地点/签证不匹配的投递，等于零</td><td>设一个匹配门槛（视频里 CMU 学生的做法是<b>匹配分 ≥ 70 才投</b>）</td></tr>
+      <tr><td><b>岗位真伪</b></td><td>ghost job、非真实公司会吃掉你大量预算</td><td>优先投能在公司官网 career page 找到的岗位 <button class="pb" data-t="3168">52:48</button></td></tr>
+      <tr><td><b>简历相关性</b></td><td>简历有没有反映 JD 里要的东西，决定 recruiter 能不能"看见"你</td><td>不要求每个岗位改，但要维护 2–3 份面向不同方向的版本 <button class="pb" data-t="989">16:29</button></td></tr>
+      <tr><td><b>额外信号</b></td><td>LinkedIn / GitHub / 内推，是 recruiter 在简历之外看的东西</td><td>见下一节</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>2.3 一个真实案例：Carina 是怎么上岸的</h3>
+  <p>同场嘉宾 Carina 是 data scientist，一年内被 layoff 两次，最后<b>只用一份简历</b>上岸。她的做法拆开看，恰好就是上面那个公式：</p>
+  <ul class="clean">
+    <li>每天从工具里挑<b>匹配度最高的约 10 个</b>岗位投 → 提高命中率</li>
+    <li>持续 3–6 个月，累计 <b>300–500+ 份</b> → 补足数量</li>
+    <li>一边投一边面，同一份简历不断被真实面试校准 → 形成反馈闭环</li>
+  </ul>
+  <p>她自己复盘时说，Ethan 讲的那几条信号（Kaggle、GitHub 项目）她大多没满足，靠的是<b>大厂实习经历 + 填得很满的 LinkedIn</b>。
+  <button class="pb" data-t="1214">20:14</button></p>
+  <div class="editor">
+    <div class="tt">编者按 · 我要你怎么执行</div>
+    <p>把"每天投 10 个高匹配"当成一个<b>固定工时的岗位</b>：早上 1 小时筛 + 投，晚上 30 分钟复盘（今天哪几家回了、哪类岗位从没回过）。
+    重点不在 10 这个数字，在于<b>你有没有一个每天都在跑、并且会根据反馈调整的系统</b>。
+    只投不复盘的人，投第 500 份和第 1 份的命中率是一样的——那才是真正的浪费。</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="signal">
+  <h2><span class="idx">03</span>怎么被看见：AI native 到底是什么信号</h2>
+  <p class="lead">Ethan 说了一句我很认同的话：<b>"不是说你在投递工作，而是说你争取自己更好地被这个市场发现。"</b><button class="pb" data-t="498">08:18</button></p>
+
+  <h3>3.1 recruiter 真正在看的五个信号</h3>
+  <ul class="chk">
+    <li><b>① 每天高强度使用 AI —— 而且是"用在真项目里"</b>
+      <span class="why">不是拿 AI 写作业。coding、debug、research、写文档，跑完整的 AI 工作流；他还建议去 YouTube 看深度讲座，学别人怎么用。<button class="pb" data-t="902">15:02</button></span></li>
+    <li><b>② 真实项目 / 早期 AI 公司实习 —— 别看短期薪资和 title</b>
+      <span class="why">Ethan 特别提到：他去线下分享会时，看到有 new grad 直接现场递简历——<b>"这是一个非常非常好的 signal"</b>。机会留给够主动的人。<button class="pb" data-t="946">15:46</button></span></li>
+    <li><b>③ GitHub 要"活着"</b>
+      <span class="why">有 GitHub 只是及格线。要有持续 commit、几个像样的项目、其中至少一个值得拿出来讲。主持人说这一条就能筛到 1% 以下。<button class="pb" data-t="1078">17:58</button></span></li>
+    <li><b>④ LinkedIn profile 写满、写专业</b>
+      <span class="why">简历同质化之后，recruiter 会点进你的 LinkedIn 找额外信号：经历、平时的分享。这是几乎零成本却极少人做好的一项。<button class="pb" data-t="969">16:09</button></span></li>
+    <li><b>⑤ Hackathon / Kaggle —— 但必须"打上榜"</b>
+      <span class="why">主持人以为 Kaggle 早没用了，Ethan 说很有用：因为愿意打比赛的人极少，能上榜代表你短期内高强度啃过 repo、paper、开源模型。做过 ≠ 上榜。<button class="pb" data-t="1145">19:05</button></span></li>
+  </ul>
+  <div class="quote t2">
+    "但凡你能做到一个或者两个，你会非常容易地让自己的 profile stand out。"
+    <span class="who">Ethan · <button class="pb" data-t="1123">18:43</button></span>
+  </div>
+
+  <h3>3.2 最扎心也最给希望的一段</h3>
+  <div class="quote t3">
+    "我觉得一个很残酷的现实还是说，很多 new grad 还是不够努力……现在大家得改变找工作的一个思考，你需要把找工作当成你的一个全职工作来做。"
+    <span class="who">Ethan · <button class="pb" data-t="1012">16:52</button></span>
+  </div>
+  <p>紧接着他补了一句几乎是这期视频里最重要的乐观：<b>整个 market 对 new grad 还是有巨大缺口的</b>——
+  连他自己公司都因为"AI native 的资深人太贵、太难招"，转而去看更 AI native 的 new grad。<button class="pb" data-t="1056">17:36</button></p>
+  <div class="editor">
+    <div class="tt">编者按 · 这才是你该抓的套利</div>
+    <p>把两个数字放一起看：<b>有像样 GitHub 的 new grad 不到 3–5%</b>，<b>能按 JD 认真写一份申请的大约 2%</b>。
+    这意味着你不需要比所有人强，你只需要<b>做完那几件所有人都知道该做、但 95% 的人没做的事</b>。
+    这是我这些年见过最便宜的一次套利机会——它不要天赋，只要你把它当工作做满 8 周。</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="groups">
+  <h2><span class="idx">04</span>五类人群，五套完全不同的打法</h2>
+  <p class="lead">Ethan 明确说他们内部对 entry level 和 mid-senior 用的是<b>两套完全不同的推荐逻辑</b>。你先要知道自己在哪一格。</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>人群</th><th>难度</th><th>Ethan 的判断</th><th>打法关键词</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>New grad / entry level</b></td>
+        <td><span class="tag hard">最难</span></td>
+        <td>入口太拥挤；缺够强的实习；学校根本不教怎么用 AI；而 AI 正让公司越来越不想招 entry level <button class="pb" data-t="765">12:45</button></td>
+        <td><b>量大管饱 + 极度 fresh</b><br>盯 alert，高匹配就投</td>
+      </tr>
+      <tr>
+        <td><b>需要 H-1B sponsor</b></td>
+        <td><span class="tag hard">最难</span></td>
+        <td>能匹配的岗位供给天然就少<button class="pb" data-t="1258">20:58</button></td>
+        <td><b>先筛 sponsor 记录</b><br>再谈匹配度</td>
+      </tr>
+      <tr>
+        <td><b>转岗 / 换职能</b></td>
+        <td><span class="tag hard">难</span></td>
+        <td>比如 DS 想转 PM，relevance 直接断档</td>
+        <td><b>补相关性证据</b><br>项目 > 说辞</td>
+      </tr>
+      <tr>
+        <td><b>被裁的人</b></td>
+        <td><span class="tag mid">中</span></td>
+        <td>比想象中容易；<b>真正的难点在心态和节奏，不在能力</b>——"很多时候确实不是自己的原因" <button class="pb" data-t="1304">21:44</button></td>
+        <td><b>先修节奏</b><br>再谈策略</td>
+      </tr>
+      <tr>
+        <td><b>Mid to Senior</b></td>
+        <td><span class="tag ok">相对容易</span></td>
+        <td>相对其他人容易很多，但比过去难很多、而且会越来越难；他们看重的是 <b>relevance</b> 和 <b>taste</b> <button class="pb" data-t="1372">22:52</button></td>
+        <td><b>相关性 + 挑</b><br>有 taste 才有选择权</td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <h3>4.1 Entry level：唯一的策略是"新且准"</h3>
+  <p>视频里有一段极其具体的实操，来自一位 CMU 硕士的用法：<b>盯着 job alert，匹配分 ≥ 70 就无脑投</b>，
+  因为很多公司发出去一天内发现申请太多就把岗位关掉了。<button class="pb" data-t="1349">22:29</button></p>
+
+  <h3>4.2 Mid-Senior：taste 是奢侈品，也是筛选器</h3>
+  <p>Ethan 说资深候选人对地点、签证、公司文化、CEO、remote、行业、薪资、具体做什么都有 taste——
+  而<b>"因为你有 taste，意味着你有选择的权利"</b>。<button class="pb" data-t="1439">23:59</button>
+  反过来说，如果你现在完全没有 taste、什么都能接受，那说明你的议价能力还没建立起来。</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="future">
+  <h2><span class="idx">05</span>公司真正想要的两种人：Architect 与 Generalist</h2>
+  <p class="lead">这段是主持人抛出"AI architect 会成为未来五年的稀缺岗位"的判断，Ethan 顺着拆成了两类。我认为这是全片信息密度最高的十分钟。</p>
+
+  <h3>类型一 · Domain Expert / AI Architect —— 能 close the loop 的人</h3>
+  <p>Ethan 的定义非常锋利：<b>AI 能做 80–90%，但最后那 5–10% 必须由人收口</b>；
+  而<b>只有专家才收得了口</b>——你不是专家，你连"两个结果哪个更好"都判断不了。</p>
+  <div class="quote">
+    "很多东西确实需要 human in the loop。可能 AI 做 80%–90% 的事情，但最后 5%–10% 的事情需要人去做……你必须是一个 expert，你才能 close the loop。"
+    <span class="who">Ethan · <button class="pb" data-t="1573">26:13</button></span>
+  </div>
+  <p>他举的例子是 Harvey 这类 AI 法律公司：内部反而招了很多资深律师，他们的职责就是<b>给 AI 的产出收口</b>。
+  再加上一条能力：<b>context switch</b>——同时操控多个 AI 窗口干活，还能对每一个的结果做 eval、给出有效 feedback。<button class="pb" data-t="1615">26:55</button></p>
+
+  <h3>类型二 · AI Generalist —— end-to-end 解决问题的人</h3>
+  <p>本质是"in general problem solving 的能力"，Ethan 说得更直接：<b>有点像 CEO 的能力</b>。他举的例子最有杀伤力：</p>
+  <div class="quote t2">
+    "AI 对前端的替代特别特别强……那对于前端工程师来讲，你要不然是一个前端极其强的 expert，要不然你就得往更 end-to-end 地去转。"
+    <span class="who">Ethan · <button class="pb" data-t="1661">27:41</button></span>
+  </div>
+  <p>他点名现在很火的 <b>FDE（forward deployed engineer）</b>——入驻客户公司，end-to-end 用自己的产品解决对方产线上的问题——
+  就是 AI generalist 的典型形态。<button class="pb" data-t="1682">28:02</button></p>
+  <p>主持人补了一个更完整的"全栈"定义，我很认同：<b>不只是技术全栈</b>。会写前端 → 会不会设计 → 会不会写文案、能不能让 landing page 转化？
+  三样能占两样已经很稀缺，三样全占的人他说至今没找到。<button class="pb" data-t="1752">29:12</button></p>
+
+  <div class="callout">
+    <h3>用 AI 做减法，不是做加法</h3>
+    <p>这是我个人从这期里收获最大的一句。Ethan 说小团队每天最重要的是 decision making——
+    <b>"我现在不是用 AI 做加法，我恰恰是用 AI 做减法，最后减到我觉得最重要的一两件事。"</b><button class="pb" data-t="1886">31:26</button></p>
+    <p style="margin-top:8px">主持人接了一句同样值得抄下来的：价值不是均匀分布的——<b>10 件事里一定有一件，做了以后其他 9 件都不重要了</b>。
+    找工作也一样：如果你手上有 10 个动作，先找那一件。<button class="pb" data-t="1906">31:46</button></p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="hiring">
+  <h2><span class="idx">06</span>招聘方式正在变：轻简历、轻面试、试工时代</h2>
+  <p class="lead">如果你还在按 2021 年的方式准备面试，这一节请务必听原声。</p>
+
+  <ul class="clean">
+    <li><b>简历和远程面试的权重在下降。</b>很多公司不再过度关注简历写了什么，前一两轮"差不多就行"。<button class="pb" data-t="4576">76:16</button></li>
+    <li><b>取而代之的是 work trial（试工）。</b>周末过去跟团队合作两天，一般是<b>按你目前薪资付费</b>的几个工作日。Ethan 点名 Cursor 这类公司就是这么干的。<button class="pb" data-t="4621">77:01</button></li>
+    <li><b>他们在看两件事：</b>① 你用 AI 实战解决问题的能力；② 说得不好听点——你愿不愿意牺牲个人时间跟公司一起卷。<button class="pb" data-t="4599">76:39</button></li>
+    <li><b>LeetCode / system design "确实是有点过时了"</b>——这是 Ethan 原话。<button class="pb" data-t="4599">76:39</button></li>
+    <li><b>别以为小公司好进。</b>"反而小公司要求才是最高的、可能最难的。"<button class="pb" data-t="4644">77:24</button></li>
+  </ul>
+
+  <div class="editor">
+    <div class="tt">编者按 · 这对你的准备意味着什么</div>
+    <p>准备的重心要<b>从"刷题"移到"可展示的实战"</b>：一个能在两天内交付点什么的工作方式，一段能讲清楚"我怎么指挥 AI、怎么验收 AI"的经历。
+    另外一个现实提醒：试工是双向的——你也在那两天里看清这家公司的节奏和下限。别只把它当考试。</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="mind">
+  <h2><span class="idx">07</span>心态：被拒 ≠ 你不行</h2>
+  <p class="lead">主持人问他"给 job seeker 澄清一个误解"，Ethan 的回答是这期最该被贴在墙上的一段。</p>
+
+  <div class="quote">
+    "很多人还是传统地觉得找工作是投简历。我想澄清的是，在现在这个市场，找工作本身确实是一份全职工作——
+    你需要制定自己的 strategy 和优先级。"
+    <span class="who">Ethan · <button class="pb" data-t="4712">78:32</button></span>
+  </div>
+  <p>他把这份"全职工作"的职责列全了：找机会 → 判断机会 → 改简历 → 联系 recruiter → 准备面试 → 找内推 →
+  <b>复盘反馈</b> → 维护 LinkedIn / GitHub → build 你的 AI profile。<button class="pb" data-t="4734">78:54</button></p>
+
+  <div class="quote t2">
+    "没有反馈或者被拒，在这个市场里非常非常正常……它实际不一定说你不行，有可能只是说这个岗位、渠道、时间点或者表达方式，
+    没有产生足够多的 signal。所以不要把每一次没回复都当成自我否定。"
+    <span class="who">Ethan · <button class="pb" data-t="4758">79:18</button></span>
+  </div>
+
+  <p>他给的处理方式非常工程师：<b>把它当成系统的反馈信号，不断调整方向、简历、渠道、节奏，甚至做做 AB 实验，让这件事变得有意思。</b>
+  <button class="pb" data-t="4779">79:39</button></p>
+
+  <div class="callout">
+    <h3>他留给所有求职者的最后两句</h3>
+    <p>① <b>要相信有足够多的岗位</b>；② <b>跟你竞争的人没有那么强，有足够多提升的机会。</b><button class="pb" data-t="4801">80:01</button></p>
+    <p style="margin-top:8px">以及结尾那段我很喜欢的话：AI 高速发展的环境噪音很大，
+    <b>找到一段能让自己心灵平静下来的时间，让内心变得更强大</b>，反而是每个人都需要想的事。<button class="pb" data-t="4823">80:23</button></p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="founder">
+  <h2><span class="idx">08</span>如果你在想创业 / 做产品：Ethan 的九条</h2>
+  <p class="lead">后半段是创业话题。即使你不创业也值得看——因为"把找工作当项目做"和"把产品从 0 做到 1"，是同一套方法论。</p>
+
+  <ol class="steps">
+    <li><b>先劝退。</b>"如果我说十遍不建议你创业之后你还要创业，那就去创。"创业需要五到十年如一日的自我驱动。<button class="pb" data-t="1995">33:15</button></li>
+    <li><b>创业没有正反馈。</b>大厂里有 peer、manager、升职加薪给你反馈；创业之后<b>正反馈只能自己给自己</b>——因为你的目标永远定得比现状高。<button class="pb" data-t="2016">33:36</button> <button class="pb" data-t="2083">34:43</button></li>
+    <li><b>想清楚再跳：先去一家 pre-seed / 种子轮公司待一阵</b>，感受那种 chaos 是不是你喜欢的生活。<button class="pb" data-t="2436">40:36</button></li>
+    <li><b>选合伙人/选公司，看的是"下限"不是上限</b>——而且是<b>做人的底线</b>。"跟钱相关的东西，往往都是 hack 到你下限的东西。"<button class="pb" data-t="2393">39:53</button></li>
+    <li><b>创始人必须自己下场跟用户聊。</b>他们的铁规是<b>每周保证 5–10 个用户访谈</b>；约不到就付费访谈（15–20 刀 credit）；聊满 10–20 个你才会对这个群体有真感知。<button class="pb" data-t="2612">43:32</button> <button class="pb" data-t="2701">45:01</button></li>
+    <li><b>"产品够好用户就会来"是 misconception。</b>AI 时代 distribution 才是难点——build 产品已经不难了。<button class="pb" data-t="3910">65:10</button></li>
+    <li><b>Marketing 不能外包给一个 head of marketing。</b>早期 founder 讲不清自己的 product message，招谁来都没用。<button class="pb" data-t="4668">77:48</button></li>
+    <li><b>底层能力值得花一年死磕。</b>他们前一年半完全免费，把爬虫和 data layer 抠到极致（AI 写爬虫、AI 自己修爬虫），因为"爬虫出问题永远是内部第一优先级"。<button class="pb" data-t="3573">59:33</button></li>
+    <li><b>不要对从 0 到 1 的东西有过高期望。</b>"刚上的时候非常非常傻"是常态，真正变好一般发生在三四个月之后。<button class="pb" data-t="3663">61:03</button></li>
+  </ol>
+
+  <div class="editor">
+    <div class="tt">编者按 · 把第 5 条搬到求职上</div>
+    <p>"创始人必须自己下场跟用户聊"翻译成求职语言就是：<b>你必须自己下场跟人聊</b>。
+    你的"用户"是招你的人。约 10–20 个目标岗位上的从业者做 30 分钟信息面谈，
+    你对这个岗位真正要什么的理解，会超过读 100 份 JD。这件事和"每周 5–10 个用户访谈"是完全同构的，
+    而且大部分人不做——又一个 3% 的套利。</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="action">
+  <h2><span class="idx">09</span>本周行动清单</h2>
+  <p class="lead">看完不动手等于没看。这一节是我给你们的，不是 Ethan 的原话——按顺序做，一周做完。</p>
+
+  <ol class="steps">
+    <li><b>把找工作排进日历。</b>每天固定 2 段：早上 60 分钟筛+投，晚上 30 分钟复盘。写在日历上，像上班一样打卡。</li>
+    <li><b>建一张投递台账。</b>公司 / 岗位 / 投递日期 / 岗位发布日期 / 渠道 / 是否内推 / 结果。两周后你会第一次看见自己的真实命中率——<b>没有台账，你永远在凭感觉焦虑。</b></li>
+    <li><b>设一个匹配门槛。</b>不达标不投，把预算省给高匹配岗位。同时把 alert 打开，做到当天投。</li>
+    <li><b>本周把 GitHub 和 LinkedIn 修一遍。</b>GitHub：置顶 3 个项目，每个写清楚"解决什么问题 / 我做了什么 / AI 在里面干了什么"。LinkedIn：把 profile 填满，开始每周发 1 条。这两件加起来不到 6 小时，却直接把你从 95% 里拎出来。</li>
+    <li><b>启动一个"能讲 10 分钟"的真项目。</b>不求大，求能端到端跑通、有 commit 历史、能讲清楚你怎么指挥 AI、怎么验收 AI 的产出。</li>
+    <li><b>约 3 个信息面谈。</b>LinkedIn 上找目标岗位的在职者，30 分钟，问他们团队真正在解决什么问题。这是你的"用户访谈"。</li>
+    <li><b>为试工做准备。</b>假设下一轮不是白板题而是"周末一起干两天"，你现在的准备方式该怎么改？把答案写下来。</li>
+  </ol>
+
+  <div class="callout">
+    <h3>一句话</h3>
+    <p>这期视频最值钱的不是"市场很难"这四个字——那你早就知道。最值钱的是这两个数字放在一起：
+    <b>难度是十年最高，而认真做事的人不到 5%</b>。
+    难，是所有人共同的分母；<b>认真，是你自己能改的分子</b>。这一周，请你只跟分子较劲。</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="quotes">
+  <h2><span class="idx">10</span>金句索引（点按钮直接回放）</h2>
+  <p class="lead">按时间顺序排列。想快速重听哪一段，从这里跳。</p>
+  <div class="card qb">
+    <div class="qbi"><div class="t"><button class="pb" data-t="386">06:26</button></div><div class="s">白领岗位数量已是过去十年最低点，"可能后面还会越来越低"。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="430">07:10</button></div><div class="s">"市场不是说没有机会，而是陷入了严重的双向噪音。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="475">07:55</button></div><div class="s">"无策略的海投，很多时候不是一个策略，而是缓解你的焦虑。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="498">08:18</button></div><div class="s">"不是说你在投递工作，而是说你争取自己更好地被这个市场发现。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="541">09:01</button></div><div class="s">每个人一天只有 24 小时——"你一定要把每次投递作为你更重要的一个 budget"。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="698">11:38</button></div><div class="s">工具能把命中率提到 2–3%，"但这其实依旧是一个比较小的分数"，量还得补上。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1012">16:52</button></div><div class="s">有像样 GitHub 的 new grad 不到 3–5%；"很多 new grad 还是不够努力"。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1033">17:13</button></div><div class="s">"你需要把找工作当成你的一个全职工作来做。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1145">19:05</button></div><div class="s">Kaggle 依然有用——但必须是<b>打上榜</b>，而不是"我做过一个 Kaggle 项目"。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1349">22:29</button></div><div class="s">CMU 学生的用法：盯 alert，匹配分 ≥70 就投，因为岗位可能一天内被关掉。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1573">26:13</button></div><div class="s">"AI 做 80%–90%，最后 5%–10% 需要人去做"——你必须是 expert 才 close 得了 loop。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1661">27:41</button></div><div class="s">前端工程师：要么成为极强的 expert，要么往 end-to-end 转。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1886">31:26</button></div><div class="s">"我现在不是用 AI 做加法，我恰恰是用 AI 做减法。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1995">33:15</button></div><div class="s">"如果我说十遍不建议你创业之后你还要创业，那就去创。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="2393">39:53</button></div><div class="s">选合伙人、选公司，要看对方的<b>下限</b>——做人的底线。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="2612">43:32</button></div><div class="s">内部铁规：每周保证 5–10 个用户访谈记录。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="3910">65:10</button></div><div class="s">"产品足够好用户就会涌入"——在 AI 时代已经是一个 common misconception。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="4621">77:01</button></div><div class="s">越来越多公司改用付费"试工"：周末过去合作两天，看实战。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="4644">77:24</button></div><div class="s">"不要觉得小公司简单，反而小公司要求才是最高的。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="4758">79:18</button></div><div class="s">"不要把每一次没回复都当成自我否定。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="4801">80:01</button></div><div class="s">"跟你竞争的人没有那么强，有足够多提升的机会。"</div></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="source">
+  <h2><span class="idx">11</span>来源与口径</h2>
+  <div class="card tight">
+    <ul class="clean" style="font-size:13.5px">
+      <li><b>视频：</b>《AI时代，找工作的难度，远超你想象｜Jobright 创始人分享一线求职数据》 · 频道「课代表立正」 ·
+        发布 2026-08-12 · 时长 82 分钟 ·
+        <a href="https://youtu.be/BR3hN7InkmY" target="_blank" rel="noopener">youtu.be/BR3hN7InkmY</a></li>
+      <li><b>转写来源：</b>视频<b>官方中文字幕</b>（非机器转写、非二手整理）。所有带时间戳的引述均据此，可点按钮回放原声核对。<span class="hl2">［A 级 · 一手原文 · 核实 2026-08-28］</span></li>
+      <li><b>公司数据（Ethan 自述）：</b>注册用户 200 万+、全职团队不到 10 人、年化营收约 700 万美金（其自称"保守计算"）。
+        <span class="hl">［B 级 · 嘉宾自述，未经第三方核实］</span><button class="pb" data-t="210">03:30</button></li>
+      <li><b>市场数据：</b>"十年最低点""1%→2–3% 命中率""500–1000 份""3–5% 有 GitHub"等均为 <b>Ethan 基于自家平台数据的口径</b>，
+        非公开统计口径，未做外部交叉验证。<span class="hl">［B 级 · 单一来源］</span></li>
+      <li><b>编者按（青色块）与第 09 节行动清单：</b>是我的判断与建议，<b>不是视频原话</b>。<span class="hl">［D 级 · 编者推断］</span></li>
+      <li><b>本报告未收录：</b>视频中关于 Jobright 产品功能的介绍、增长渠道细节（TikTok 矩阵号、KOL 投放等）与主持人的社区推广内容——
+        与"求职者该怎么做"关系较弱，需要的同学请直接看原片 <button class="pb" data-t="4179">69:39</button>。</li>
+    </ul>
+  </div>
+  <div class="note">
+    <b>我最没把握的两条：</b>① "命中率 1% → 2–3%"是 Ethan 口头给的量级，不是他们公布的统计数字，
+    不同岗位/人群差异可能极大，<b>请当成量级感受，不要当成基准线</b>；
+    ② "十年最低点"是白领 job post 数量口径，与失业率、招聘总量并不是一回事。
+    要下结论请自行核对 BLS / Indeed Hiring Lab 的公开数据。
+  </div>
+</section>
+
+<footer>
+  <p><b>FLOWGT 每周最佳视频</b> · 第 01 期 · 整理于 2026-08-28。<br>
+  这个系列每周挑一个我认为最值得学员花时间的视频，把观点提炼成可回放的报告。
+  报告只做提炼与评注，版权归原作者所有，<b>请务必去看完整原片并给作者点赞</b>：
+  <a href="https://youtu.be/BR3hN7InkmY" target="_blank" rel="noopener">youtu.be/BR3hN7InkmY</a></p>
+</footer>
+
+</main>
+</div>
+</div>
+
+<!-- ============ 悬浮播放器 ============ -->
+<div id="dock">
+  <div class="bar">
+    <span class="dot"></span>
+    <span class="ttl" id="dockttl">点击正文中的时间戳即可跳转</span>
+    <button id="dockmin">收起</button>
+  </div>
+  <div class="vid"><div id="ytplayer"></div></div>
+</div>
+
+<script>
+/* ---------- 主题切换 ---------- */
+(function(){
+  var root=document.documentElement, btn=document.getElementById('theme');
+  var saved=null; try{saved=localStorage.getItem('fgt-theme')}catch(e){}
+  if(saved) root.setAttribute('data-theme',saved);
+  function label(){btn.textContent = root.getAttribute('data-theme')==='light' ? '☾ 深色' : '☀︎ 浅色';}
+  label();
+  btn.addEventListener('click',function(){
+    var t = root.getAttribute('data-theme')==='light' ? 'dark' : 'light';
+    root.setAttribute('data-theme',t); try{localStorage.setItem('fgt-theme',t)}catch(e){} label();
+  });
+})();
+
+/* ---------- 目录高亮 ---------- */
+(function(){
+  var links=[].slice.call(document.querySelectorAll('#toc a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
+  function spy(){
+    var y=window.scrollY+120, cur=secs[0];
+    secs.forEach(function(s){ if(s.offsetTop<=y) cur=s; });
+    links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href')==='#'+cur.id); });
+  }
+  window.addEventListener('scroll',spy,{passive:true}); window.addEventListener('resize',spy); spy();
+})();
+
+/* ---------- YouTube 播放器 + 时间戳跳转 ---------- */
+var FGT_VIDEO_ID = 'BR3hN7InkmY';
+var ytPlayer=null, ytReady=false, pendingSeek=null;
+
+(function(){ var s=document.createElement('script'); s.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(s); })();
+
+function onYouTubeIframeAPIReady(){
+  /* origin 只在 http(s) 下传；file:// 打开时 location.origin 是 "null"，传了反而报错 */
+  var pv={rel:0, modestbranding:1, playsinline:1, cc_lang_pref:'zh'};
+  if(/^https?:$/.test(location.protocol)) pv.origin=location.origin;
+  ytPlayer = new YT.Player('ytplayer',{
+    videoId: FGT_VIDEO_ID, playerVars:pv,
+    events:{ onReady:function(){ ytReady=true;
+      if(pendingSeek!==null){ ytPlayer.seekTo(pendingSeek,true); ytPlayer.playVideo(); pendingSeek=null; } } }
+  });
+}
+
+/* 播放器 6 秒还没就绪（无网络 / 被墙 / 离线打开）→ 降级成一个带时间戳的外链 */
+setTimeout(function(){
+  if(ytReady) return;
+  var v=document.querySelector('#dock .vid');
+  if(v) v.innerHTML='<div style="position:absolute;inset:0;display:flex;align-items:center;'+
+    'justify-content:center;text-align:center;padding:14px;font-size:12.5px;line-height:1.7;color:#98a0b0">'+
+    '播放器没能加载（离线或网络受限）。<br>点击时间戳会改为在 YouTube 新窗口打开对应位置。</div>';
+  fgtSeek = function(sec,btn){
+    document.querySelectorAll('.pb.playing').forEach(function(b){b.classList.remove('playing')});
+    btn.classList.add('playing');
+    window.open('https://www.youtube.com/watch?v='+FGT_VIDEO_ID+'&t='+Math.floor(sec)+'s','_blank','noopener');
+  };
+},6000);
+
+function fgtSeek(sec,btn){
+  var dock=document.getElementById('dock');
+  dock.classList.remove('min');
+  document.getElementById('dockmin').textContent='收起';
+  document.getElementById('dockttl').textContent='已跳转到 '+btn.textContent;
+  document.querySelectorAll('.pb.playing').forEach(function(b){b.classList.remove('playing')});
+  btn.classList.add('playing');
+  if(ytReady && ytPlayer){ ytPlayer.seekTo(sec,true); ytPlayer.playVideo(); }
+  else { pendingSeek=sec; }
+}
+
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.pb'); if(!b) return;
+  var t=parseFloat(b.getAttribute('data-t')); if(isNaN(t)) return;
+  fgtSeek(t,b);
+});
+
+document.getElementById('dockmin').addEventListener('click',function(){
+  var d=document.getElementById('dock'); d.classList.toggle('min');
+  this.textContent = d.classList.contains('min') ? '展开' : '收起';
+});
+</script>
+</body>
+</html>
