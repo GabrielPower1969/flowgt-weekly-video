@@ -18,6 +18,25 @@
 
 ---
 
+## 视频放在哪
+
+每一期的视频**下到本期目录的 `media/video.mp4`**，报告的播放器第一优先就播它——
+秒开、有声、离线可用、seek 精确。第 01 期是 `2026/2026-08-28_ethan-jobright/media/video.mp4`
+（1080p H.264 + AAC，877MB）。
+
+**为什么不直接用 YouTube 在线播放器：** 双击打开 HTML 时页面 origin 是 `"null"`，
+YouTube 会拒绝 JS 播放器并显示**「视频播放器配置错误」**——这是它的策略，绕不过去。
+所以在线播放只作降级路径（页面用 http 打开时用 JS API，file:// 时用普通 iframe 重载跳转）。
+
+**画质取 H.264 最高档（≤1080p），不是无脑 `bestvideo`：**
+YouTube 上 1440p/2160p 只有 VP9/AV1 编码，Safari 和 QuickTime 可能直接播不了；
+H.264 + AAC 的 mp4 是唯一到处都能播的组合。真要 4K：`FMT='bestvideo+bestaudio' ./fetch.sh …`，
+但请自己确认播放器能解 AV1。
+
+媒体文件被 `.gitignore` 挡住，不进仓库——clone 下来的人跑一次 `fetch.sh` 就有了。
+
+---
+
 ## 报告长什么样
 
 - **00 节** 就是全部结论（卡片式，3 分钟读完）
@@ -35,7 +54,7 @@
 在 Claude Code 里直接用：
 
 ```bash
-# 1) 抓元信息 + 官方字幕(不下载视频本体),顺手切成便于通读的时间戳块
+# 1) 抓元信息 + 官方字幕 + 视频本体(H.264 最高档),顺手切成便于通读的时间戳块
 skills/weekly-video/scripts/fetch.sh "https://youtu.be/XXXX" "2026/2026-09-04_主角-主题"
 
 # 2) 通读 blocks.txt,按 SKILL.md 的流程提炼观点、写报告
@@ -67,4 +86,4 @@ skills/weekly-video/
 
 报告只做**观点提炼与评注**，引述保持在最小必要长度，视频版权归原作者所有。
 每份报告都在页脚给出原片链接，**请去看完整原片并给作者点赞**。
-完整转写（`transcript.srt`）只留在本地供核对，不进版本库。
+完整转写（`transcript.srt`）和视频（`media/video.mp4`）只留在本地供核对，不进版本库。

@@ -10,7 +10,8 @@ description: 把一个视频（YouTube / B站 / 本地录制）做成一份"观�
 一份 **单文件 HTML**，读者打开就能：
 
 1. 3 分钟内拿到这个视频里最值钱的 6–8 条结论（在最顶上，卡片式）；
-2. 每条结论旁边有 <button class="pb"> 播放按钮，**点一下右下角播放器就跳到原话那一秒**，画面和声音一起对上——读者可以随时验证"编者有没有转述歪"；
+2. 每条结论旁边有 <button class="pb"> 播放按钮，**点一下播放器就跳到原话那一秒**，画面和声音一起对上——读者可以随时验证"编者有没有转述歪"。
+   播放器一开始是页面顶部的大屏（不会找不到），往下读时自动钉到右下角变小屏，**播放不中断**；
 3. 左侧常驻目录，按"从最有价值到最细节"排序；
 4. 清楚区分：**哪些是嘉宾说的（带时间戳）**，**哪些是编者的判断（青色 `.editor` 块，不带时间戳）**。
 
@@ -37,14 +38,15 @@ description: 把一个视频（YouTube / B站 / 本地录制）做成一份"观�
 6. **只提炼「主角」的观点。** 一期视频通常有主持人和嘉宾，先跟用户确认谁是主角（默认是嘉宾）。
    主持人的话只在两种情况下收录：他把嘉宾逼出了更清楚的表述，或者他提出了一个值得对照的相反判断——
    收录时要写明是主持人说的。
-7. **临时文件不留。** 抓取过程中的音频、中间产物处理完删掉；本期目录里只留
-   `index.html` / `transcript.srt` / `meta.txt`。
+7. **临时文件不留。** 中间产物处理完删掉；本期目录里只留
+   `index.html` / `meta.txt` / `transcript.srt` / `blocks.txt` / `media/video.mp4`，
+   后三样被 `.gitignore` 挡住，不进仓库。
 
 ---
 
 ## 工作流
 
-### 第 1 步 · 抓字幕（不下视频）
+### 第 1 步 · 抓字幕 + 视频
 
 ```bash
 skills/weekly-video/scripts/fetch.sh "<视频URL>" "2026/<日期>_<主角>-<主题>"
@@ -53,8 +55,10 @@ skills/weekly-video/scripts/fetch.sh "<视频URL>" "2026/<日期>_<主角>-<主�
 - 优先用**官方字幕**（时间戳准、无幻觉）；没有才回落本地 whisper。
 - whisper 回落时必查幻觉：整段重复同一句（"Thank you." / "字幕志愿者…"）就加
   `--condition-on-previous-text False` 重跑。
-- **视频本体不下载**——报告用 YouTube 播放器做回放，不需要媒体文件。
-  只有当视频不在 YouTube 上（B站/本地录制）时才下媒体，并改用 `<video>` 标签（见下面「换播放器」）。
+- **视频本体一定要下**，落在 `<本期>/media/video.mp4`。理由见下面「播放器」一节——
+  在线播放器在 `file://` 下是坏的，本地文件才是唯一稳的回放方式。
+- 画质取 **H.264（avc1）最高档**（脚本默认 ≤1080p）。不要无脑 `bestvideo`：
+  1440p/2160p 在 YouTube 上只有 VP9/AV1 编码，Safari / QuickTime 可能直接播不了。
 
 ### 第 2 步 · 通读
 
@@ -103,22 +107,35 @@ python3 skills/weekly-video/scripts/check_report.py <本期>/index.html <本期>
 ### 第 6 步 · 收尾
 
 - 更新仓库根 `README.md` 的期号索引表；
-- 删掉临时文件（音频、中间产物）。
+- 删掉临时文件（中间产物）。媒体和转写留在本地，靠 `.gitignore` 挡住即可。
 
 ---
 
-## 换播放器（非 YouTube 视频）
+## 播放器（这一节踩过坑，别改坏）
 
-`report_shell.html` 默认用 YouTube IFrame API。换成本地/B站时：
+播放器按这个顺序自己挑，写在 `report_shell.html` 里，一般不需要动：
 
-- **本地文件**：把 `#dock .vid` 里的 `<div id="ytplayer">` 换成
-  `<video id="v" controls src="video.mp4" style="width:100%"></video>`，
-  并把 `fgtSeek` 改成 `v.currentTime = sec; v.play();`。
-  媒体本体放 `flowgt-media/`，目录里放符号链接（`.gitignore` 会挡住它，播放按钮照常工作）。
-- **B站**：B 站 player 的 iframe 支持 `&t=` 参数但**不支持 JS 无刷新 seek**，
-  只能靠重设 `iframe.src` 跳转（会重新加载）。老实用这个方案，别假装能无缝 seek。
+| 顺序 | 条件 | 行为 |
+|---|---|---|
+| ① | `media/video.mp4` 存在 | 原生 `<video>`：秒开、有声、离线可用、seek 精确。**默认走这条** |
+| ② | 没有本地文件，且页面是 `http(s)` 打开的 | YouTube IFrame JS API，可无刷新 seek |
+| ③ | 没有本地文件，且页面是 `file:`（或 data:/blob:） | YouTube 普通 iframe，每次跳转 `?start=` 重载一次 |
+| ④ | 10 秒还没就绪（断网/被墙） | 点时间戳改成在新标签打开 YouTube 对应位置 |
 
----
+**为什么必须本地文件优先：** YouTube 的 JS API 需要一个合法 origin。
+双击打开 HTML 时 origin 是 `"null"`，YouTube 直接拒绝并在播放器里显示
+**「视频播放器配置错误」**——这不是代码 bug，是它的策略，绕不过去。
+而双击打开正是最常见的用法，所以在线播放器**不能**作为主路径。
+
+两个已知坑，改代码时注意：
+
+- **钉住 = 给同一个元素加 `position:fixed`，不是把它搬进另一个容器。**
+  搬 DOM 会让 `<video>` / `<iframe>` 重新加载，播放当场断掉。
+- **静态服务器必须支持 Range 请求。** `python3 -m http.server` 不支持，
+  表现是"一 seek 就弹回 0"。GitHub Pages 支持。本地双击打开没有这个问题。
+
+**非 YouTube 视频（B站 / 本地录制）：** 下好 `media/video.mp4` 就行，走 ① 分支，
+其余逻辑不用改；把 `FGT_VIDEO_ID` 留空即可。
 
 ## 语气
 
