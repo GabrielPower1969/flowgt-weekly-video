@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FLOWGT 每周最佳视频</title>
+<meta name="description" content="每周挑一个最值得花时间的视频，把观点提炼成可回放的报告。">
+<style>
+:root{
+  --bg:#0c0d10; --bg-top:#08090b; --panel:#15171c; --panel-end:#111318; --panel2:#1c1f26;
+  --ink:#eceff5; --muted:#98a0b0; --line:#242832; --line2:#333947;
+  --brand:#f3a626; --brand2:#4fd1c5; --brand3:#ff7a59;
+  --chip:#1b1e25; --glow1:rgba(243,166,38,.10); --glow2:rgba(79,209,197,.07);
+  --radius:16px; --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 34px -18px rgba(0,0,0,.6);
+}
+:root[data-theme="light"]{
+  --bg:#f6f5f1; --bg-top:#fffdf9; --panel:#fff; --panel-end:#fbfaf7; --panel2:#f1efe9;
+  --ink:#1a1c22; --muted:#61697a; --line:#e3e0d8; --line2:#cfcbc0;
+  --brand:#b9761a; --brand2:#0f8a80; --brand3:#d6512f;
+  --chip:#f1efe9; --glow1:rgba(185,118,26,.07); --glow2:rgba(15,138,128,.05);
+  --shadow:0 1px 2px rgba(20,20,20,.05),0 12px 28px -18px rgba(20,20,20,.25);
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);
+  background:
+    radial-gradient(900px 460px at 12% -6%,var(--glow1),transparent 62%),
+    radial-gradient(760px 420px at 92% 2%,var(--glow2),transparent 60%),
+    linear-gradient(180deg,var(--bg-top),var(--bg) 320px);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:var(--brand);text-decoration:none}
+.wrap{max-width:920px;margin:0 auto;padding:52px 22px 90px}
+.kicker{color:var(--brand);font-weight:800;letter-spacing:.24em;text-transform:uppercase;font-size:11px}
+h1{font-size:clamp(28px,4vw,42px);line-height:1.22;margin:12px 0 14px;letter-spacing:-.02em;font-weight:850}
+.sub{color:var(--muted);font-size:15.5px;max-width:70ch;margin:0}
+.sub b{color:var(--ink)}
+h2{font-size:15px;margin:52px 0 14px;letter-spacing:.04em;font-weight:800;color:var(--muted);
+  text-transform:uppercase;font-size:11.5px;letter-spacing:.2em}
+
+.issue{display:block;background:linear-gradient(180deg,var(--panel),var(--panel-end));
+  border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin:14px 0;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;transition:.18s}
+.issue::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--brand),var(--brand2))}
+.issue:hover{transform:translateY(-2px);border-color:var(--line2)}
+.issue .top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:11.5px;color:var(--muted)}
+.issue .no{color:var(--brand);font-weight:850;letter-spacing:.14em}
+.issue h3{margin:9px 0 8px;font-size:20px;font-weight:800;line-height:1.4;color:var(--ink);letter-spacing:-.01em}
+.issue p{margin:0;color:var(--muted);font-size:14px;line-height:1.75}
+.issue .go{margin-top:14px;display:inline-flex;align-items:center;gap:6px;color:var(--brand);
+  font-size:13px;font-weight:750}
+.issue .go::after{content:"→";transition:.18s}
+.issue:hover .go::after{transform:translateX(3px)}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.tag{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:3px 11px;
+  font-size:11.5px;color:var(--muted)}
+
+.how{background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px}
+.how p{margin:0 0 10px;font-size:14px;color:var(--muted)}
+.how p:last-child{margin-bottom:0}
+.how b{color:var(--ink)}
+ul{padding-left:20px;margin:10px 0;color:var(--muted);font-size:14px}
+li{margin:6px 0}
+li::marker{color:var(--brand)}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+#theme{position:fixed;right:18px;top:18px;background:var(--panel);border:1px solid var(--line2);
+  color:var(--muted);border-radius:10px;padding:6px 12px;font-size:12px;cursor:pointer;
+  font-family:inherit;box-shadow:var(--shadow)}
+</style>
+</head>
+<body>
+<button id="theme">☀︎ 浅色</button>
+<div class="wrap">
+  <div class="kicker">FLOWGT</div>
+  <h1>每周最佳视频</h1>
+  <p class="sub">
+    每周挑一个我认为<b>最值得学员花时间</b>的视频，把里面的观点提炼成一份可回放的报告：
+    最重要的结论放最前面，正文里每一个时间戳都是一个播放按钮——点一下，视频就跳到原话那一秒。
+    <b>观点是我的，证据是原作者的</b>，你随时可以跳回原片核对我有没有转述歪。
+  </p>
+
+  <h2>往期</h2>
+
+  <a class="issue" href="2026/2026-08-28_ethan-jobright/">
+    <div class="top"><span class="no">第 01 期</span><span>·</span><span>2026-08-28</span></div>
+    <h3>AI 时代找工作的难度，远超你想象</h3>
+    <p>Jobright 联合创始人兼 CTO Ethan 手上握着每天几十万条真实投递数据——他说的每一句难，都是有分母的难。
+       白领岗位十年最低点、"双向噪音"、命中率只剩 1%……但他也给了最扎心的乐观：
+       有像样 GitHub 的 new grad 不到 3–5%。</p>
+    <div class="tags">
+      <span class="tag">👤 Ethan（Jobright CTO）</span>
+      <span class="tag">🎙 课代表立正</span>
+      <span class="tag">🕐 82 分钟</span>
+      <span class="tag">🔖 8 条结论 · 96 个回放点</span>
+    </div>
+    <div class="go">读报告</div>
+  </a>
+
+  <h2>怎么读这些报告</h2>
+  <div class="how">
+    <ul>
+      <li><b>00 节就是全部结论</b>——只有 3 分钟就读这一屏</li>
+      <li><b>带时间戳的是嘉宾说的，青色块是我的编者按</b>，两者永远视觉可分辨</li>
+      <li>最后一节固定写「来源与口径」，包括<b>我自己最没把握的两三条</b></li>
+      <li>报告里的播放器优先播本地视频；没有本地文件时自动退到 YouTube 在线播放</li>
+    </ul>
+  </div>
+
+  <h2>这是怎么做的</h2>
+  <div class="how">
+    <p>整个流程被沉淀成了一个公开 skill：<a href="https://github.com/GabrielPower1969/flowgt-weekly-video/tree/main/skills/weekly-video">skills/weekly-video</a>——
+      抓字幕 → 通读 → 按价值重排观点 → 生成带回放按钮的 HTML → 发布前自检时间戳。</p>
+    <p>姊妹项目：<a href="https://github.com/GabrielPower1969/InterviewAnalysis">InterviewAnalysis</a>（把面试录音做成复盘报告）。</p>
+  </div>
+
+  <footer>
+    报告只做观点提炼与评注，引述保持在最小必要长度，<b>视频版权归原作者所有</b>，
+    每期都在页脚给出原片链接——请去看完整原片并给作者点赞。<br>
+    <a href="https://github.com/GabrielPower1969/flowgt-weekly-video">GitHub 仓库</a>
+  </footer>
+</div>
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('theme'), saved=null;
+  try{saved=localStorage.getItem('fgt-theme')}catch(e){}
+  if(saved) root.setAttribute('data-theme',saved);
+  function label(){btn.textContent = root.getAttribute('data-theme')==='light' ? '☾ 深色' : '☀︎ 浅色';}
+  label();
+  btn.addEventListener('click',function(){
+    var t = root.getAttribute('data-theme')==='light' ? 'dark' : 'light';
+    root.setAttribute('data-theme',t); try{localStorage.setItem('fgt-theme',t)}catch(e){} label();
+  });
+})();
+</script>
+</body>
+</html>

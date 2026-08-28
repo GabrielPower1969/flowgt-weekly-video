@@ -12,9 +12,13 @@
 
 ## 期号索引
 
+**在线阅读（发给学员用这个）：** https://gabrielpower1969.github.io/flowgt-weekly-video/
+
 | 期 | 日期 | 主题 | 主角 | 报告 |
 |---|---|---|---|---|
-| 01 | 2026-08-28 | AI 时代找工作的难度，远超你想象 | Ethan（Jobright 联创 / CTO） | [报告](2026/2026-08-28_ethan-jobright/index.html) · [原片](https://youtu.be/BR3hN7InkmY) |
+| 01 | 2026-08-28 | AI 时代找工作的难度，远超你想象 | Ethan（Jobright 联创 / CTO） | [在线读](https://gabrielpower1969.github.io/flowgt-weekly-video/2026/2026-08-28_ethan-jobright/) · [原片](https://youtu.be/BR3hN7InkmY) |
+
+> GitHub 仓库页里点 `.html` 只会看到源码，**要发给别人请用上面的 Pages 链接。**
 
 ---
 
@@ -81,6 +85,10 @@ skills/weekly-video/
 ```
 
 ---
+
+## 许可
+
+代码与 skill 采用 MIT（见 [LICENSE](LICENSE)）。报告正文是编者的评注与提炼，引述部分版权归原视频作者。
 
 ## 版权
 
