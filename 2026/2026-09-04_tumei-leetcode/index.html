@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>本周最佳视频 · 刷 LeetCode 的三个观念与一套刷题路线｜土妹</title>
+<style>
+:root{
+  --bg:#0c0d10; --bg-top:#08090b; --panel:#15171c; --panel-end:#111318; --panel2:#1c1f26;
+  --ink:#eceff5; --muted:#98a0b0; --line:#242832; --line2:#333947;
+  --brand:#f3a626;        /* 琥珀：本周视频主色 */
+  --brand2:#4fd1c5;       /* 青：次级强调 */
+  --brand3:#ff7a59;       /* 珊瑚：警示/难度 */
+  --good:#4ade80; --warn:#f3a626; --bad:#ff6b7a;
+  --quote-ink:#cfd5e0; --chip:#1b1e25;
+  --glow1:rgba(243,166,38,.10); --glow2:rgba(79,209,197,.07);
+  --radius:16px; --maxw:1220px;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 34px -18px rgba(0,0,0,.6);
+  --serif:"Georgia","Songti SC","Noto Serif SC",serif;
+}
+:root[data-theme="light"]{
+  --bg:#f6f5f1; --bg-top:#fffdf9; --panel:#ffffff; --panel-end:#fbfaf7; --panel2:#f1efe9;
+  --ink:#1a1c22; --muted:#61697a; --line:#e3e0d8; --line2:#cfcbc0;
+  --brand:#b9761a; --brand2:#0f8a80; --brand3:#d6512f;
+  --good:#12885a; --warn:#a56a10; --bad:#cf2f45;
+  --quote-ink:#3a4150; --chip:#f1efe9;
+  --glow1:rgba(185,118,26,.07); --glow2:rgba(15,138,128,.05);
+  --shadow:0 1px 2px rgba(20,20,20,.05),0 12px 28px -18px rgba(20,20,20,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;color:var(--ink);
+  background:
+    radial-gradient(900px 460px at 12% -6%,var(--glow1),transparent 62%),
+    radial-gradient(760px 420px at 92% 2%,var(--glow2),transparent 60%),
+    linear-gradient(180deg,var(--bg-top),var(--bg) 320px);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+::selection{background:rgba(243,166,38,.28)}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:32px 22px 120px}
+.grid{display:grid;grid-template-columns:250px 1fr;gap:38px;align-items:start}
+/* grid item 默认 min-width:auto,里面的宽表格会把整列撑爆 → 必须归零,否则手机上整页横滚 */
+.grid>*{min-width:0}
+@media(max-width:980px){.grid{grid-template-columns:1fr;gap:18px}}
+
+/* ---------- header ---------- */
+header.hero{margin-bottom:26px}
+.kicker{color:var(--brand);font-weight:800;letter-spacing:.24em;text-transform:uppercase;font-size:11px}
+h1{font-size:clamp(26px,3.4vw,40px);line-height:1.24;margin:10px 0 12px;letter-spacing:-.02em;font-weight:850}
+h1 .thin{color:var(--muted);font-weight:600}
+.sub{color:var(--muted);font-size:15px;max-width:76ch;margin:0 0 16px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pill{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:12.5px;color:var(--muted)}
+.pill b{color:var(--ink);font-weight:650}
+.pill.hi{border-color:rgba(243,166,38,.4);background:rgba(243,166,38,.09);color:var(--brand)}
+
+/* ---------- sidebar ---------- */
+.toc{position:sticky;top:18px;background:linear-gradient(180deg,var(--panel),var(--panel-end));
+  border:1px solid var(--line);border-radius:var(--radius);padding:14px 10px;
+  max-height:calc(100vh - 36px);overflow:auto;box-shadow:var(--shadow)}
+.toc::-webkit-scrollbar{width:7px}
+.toc::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+.toc .tt{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:4px 12px 9px}
+.toc a{display:flex;gap:9px;align-items:baseline;color:var(--muted);padding:7px 11px;border-radius:9px;
+  font-size:13px;transition:.16s;border-left:2px solid transparent;line-height:1.45}
+.toc a:hover{background:var(--panel2);color:var(--ink);text-decoration:none}
+.toc a.active{background:linear-gradient(90deg,rgba(243,166,38,.16),rgba(243,166,38,.02));color:var(--ink);border-left-color:var(--brand)}
+.toc a .n{color:var(--brand);font-variant-numeric:tabular-nums;font-size:11px;min-width:16px;font-weight:800;opacity:.85}
+.toc .sep{height:1px;background:var(--line);margin:9px 12px}
+@media(max-width:980px){.toc{position:static;max-height:none}}
+
+/* ---------- sections ---------- */
+section{scroll-margin-top:20px;padding-top:14px}
+h2{font-size:21px;margin:34px 0 6px;display:flex;align-items:center;gap:11px;letter-spacing:-.01em;font-weight:800}
+h2 .idx{color:var(--brand);font-size:12px;font-weight:800;border:1px solid var(--line2);border-radius:9px;
+  padding:3px 9px;background:linear-gradient(180deg,var(--panel2),var(--panel));font-variant-numeric:tabular-nums}
+h3{font-size:16px;margin:22px 0 8px;font-weight:750}
+.lead{color:var(--muted);margin:0 0 18px;font-size:14.5px;max-width:74ch}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel-end));border:1px solid var(--line);
+  border-radius:var(--radius);padding:20px 22px;margin:16px 0;box-shadow:var(--shadow)}
+.card.tight{padding:16px 18px}
+p{margin:10px 0}
+ul.clean{padding-left:20px;margin:10px 0}
+ul.clean li{margin:7px 0}
+ul.clean li::marker{color:var(--brand)}
+b,strong{font-weight:700}
+.hl{color:var(--brand);font-weight:700}
+.hl2{color:var(--brand2);font-weight:700}
+
+/* ---------- play buttons ---------- */
+.pb{display:inline-flex;align-items:center;gap:5px;background:rgba(243,166,38,.13);
+  border:1px solid rgba(243,166,38,.34);color:var(--brand);border-radius:8px;
+  padding:2px 9px;font-size:11.5px;font-weight:750;font-variant-numeric:tabular-nums;
+  cursor:pointer;transition:.15s;font-family:inherit;vertical-align:1px}
+.pb::before{content:"\25B6";font-size:8px;transform:translateY(-.5px)}
+.pb:hover{background:rgba(243,166,38,.3);transform:translateY(-1px)}
+.pb.playing{background:var(--brand);color:#14161a;border-color:var(--brand)}
+.pb.playing::before{content:"\25AE\25AE";letter-spacing:-2px;font-size:7.5px}
+
+/* ---------- quotes ---------- */
+.quote{border-left:3px solid var(--brand);background:var(--panel2);padding:11px 15px;
+  border-radius:0 10px 10px 0;margin:12px 0;font-size:14px;color:var(--quote-ink);line-height:1.72}
+.quote .who{display:block;color:var(--muted);font-size:11.5px;letter-spacing:.05em;margin-top:6px}
+.quote.t2{border-left-color:var(--brand2)}
+.quote.t3{border-left-color:var(--brand3)}
+
+/* ---------- takeaway cards (顶部最有价值) ---------- */
+.takes{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:14px;margin-top:6px}
+.take{background:linear-gradient(180deg,var(--panel),var(--panel-end));border:1px solid var(--line);
+  border-radius:14px;padding:17px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.take::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--brand),var(--brand2))}
+.take .n{font-size:11px;font-weight:850;color:var(--brand);letter-spacing:.16em}
+.take h4{margin:6px 0 7px;font-size:15.5px;font-weight:800;line-height:1.45}
+.take p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.7}
+.take .foot{margin-top:10px}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:linear-gradient(180deg,var(--panel),var(--panel-end));border:1px solid var(--line);
+  border-radius:13px;padding:15px 16px;box-shadow:var(--shadow)}
+.stat .num{font-size:27px;font-weight:850;font-variant-numeric:tabular-nums;letter-spacing:-.025em;line-height:1.2}
+.stat .num.bad{color:var(--brand3)} .stat .num.good{color:var(--brand2)} .stat .num.warn{color:var(--brand)}
+.stat .cap{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.55}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px;background:var(--panel)}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--panel2);font-weight:750;font-size:12px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
+tr:last-child td{border-bottom:0}
+td .tag{font-size:10.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--line2);font-weight:700;white-space:nowrap}
+.tag.hard{color:var(--brand3);border-color:rgba(255,122,89,.42);background:rgba(255,122,89,.1)}
+.tag.mid{color:var(--brand);border-color:rgba(243,166,38,.42);background:rgba(243,166,38,.1)}
+.tag.ok{color:var(--brand2);border-color:rgba(79,209,197,.42);background:rgba(79,209,197,.1)}
+
+/* ---------- signal / checklist ---------- */
+.chk{list-style:none;padding:0;margin:10px 0}
+.chk li{padding:11px 0 11px 34px;position:relative;border-top:1px dashed var(--line)}
+.chk li:first-child{border-top:0}
+.chk li::before{content:"";position:absolute;left:2px;top:16px;width:15px;height:15px;border-radius:5px;
+  border:2px solid var(--brand);background:rgba(243,166,38,.1)}
+.chk li b{color:var(--ink)}
+.chk li .why{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:10px 0}
+ol.steps li{counter-increment:s;position:relative;padding:12px 0 12px 44px;border-top:1px solid var(--line)}
+ol.steps li:first-child{border-top:0}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:9px;
+  background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line2);color:var(--brand);
+  font-weight:850;display:flex;align-items:center;justify-content:center;font-size:13px}
+
+/* ---------- callout ---------- */
+.callout{background:linear-gradient(120deg,rgba(243,166,38,.12),rgba(79,209,197,.05));
+  border:1px solid rgba(243,166,38,.3);border-radius:var(--radius);padding:19px 21px;margin:18px 0;box-shadow:var(--shadow)}
+.callout h3{margin-top:0;color:var(--brand)}
+.note{border:1px dashed var(--line2);border-radius:12px;padding:13px 16px;margin:16px 0;
+  font-size:13px;color:var(--muted);background:var(--panel2)}
+.note b{color:var(--ink)}
+.editor{border-left:3px solid var(--brand2);background:rgba(79,209,197,.06);border-radius:0 12px 12px 0;
+  padding:13px 16px;margin:14px 0}
+.editor .tt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand2);font-weight:800}
+.editor p{margin:6px 0 0;font-size:14px}
+
+/* ---------- formula ---------- */
+.formula{font-family:var(--serif);font-size:19px;text-align:center;padding:18px 10px;color:var(--ink);
+  background:var(--panel2);border:1px solid var(--line);border-radius:12px;margin:14px 0;line-height:1.7}
+.formula em{color:var(--brand);font-style:normal;font-weight:800}
+.formula .x{color:var(--muted);margin:0 8px}
+
+/* ---------- quotebank ---------- */
+.qb{display:grid;gap:10px}
+.qbi{display:grid;grid-template-columns:92px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--line);align-items:start}
+.qbi:first-child{border-top:0}
+.qbi .t{padding-top:2px}
+.qbi .s{font-size:14.5px;font-family:var(--serif);color:var(--quote-ink);line-height:1.7}
+@media(max-width:640px){.qbi{grid-template-columns:1fr;gap:5px}}
+
+/* ---------- 播放器 ----------
+   一个播放器,两种形态:开头是大屏(在正文流里),滚过去之后钉到右下角变小屏。
+   注意:钉住是给同一个元素加 position:fixed,**不是**把它搬到另一个容器里——
+   搬 DOM 会让 video/iframe 重新加载,播放就断了。 */
+#ph{display:none}
+#ph.on{display:block}
+#pbox{width:100%;max-width:720px;background:linear-gradient(180deg,var(--panel),var(--panel-end));
+  border:1px solid var(--line2);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:width .18s}
+#pbox .bar{display:flex;align-items:center;gap:9px;padding:8px 11px;border-bottom:1px solid var(--line);font-size:12px}
+#pbox .dot{width:7px;height:7px;border-radius:50%;background:var(--brand3);flex:none;transition:.25s}
+#pbox .dot.on{background:var(--good)}
+#pbox .src{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+#pbox .src b{color:var(--ink);font-weight:650}
+#pbox .now{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--brand);font-weight:750;flex:none}
+#pbox .bar button{background:var(--chip);border:1px solid var(--line);color:var(--muted);border-radius:7px;
+  padding:2px 9px;font-size:11.5px;cursor:pointer;font-family:inherit;flex:none}
+#pbox .bar button:hover{color:var(--ink);border-color:var(--line2)}
+#pbox .frame{position:relative;width:100%;aspect-ratio:16/9;background:#000}
+#pbox .frame video,#pbox .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#000}
+#pbox .frame .msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:16px;font-size:12.5px;line-height:1.8;color:var(--muted);gap:4px}
+#pbox .frame .msg b{color:var(--ink)}
+#pbox.pinned{position:fixed;right:18px;bottom:18px;z-index:80;width:min(400px,calc(100vw - 36px));max-width:none;
+  box-shadow:0 20px 52px -14px rgba(0,0,0,.65)}
+#pbox.pinned.min{width:min(280px,calc(100vw - 36px))}
+#pbox.pinned.min .frame{display:none}
+@media(max-width:640px){#pbox.pinned{right:10px;left:10px;bottom:10px;width:auto}}
+
+/* ---------- theme toggle ---------- */
+#theme{position:fixed;right:18px;top:18px;z-index:90;background:var(--panel);border:1px solid var(--line2);
+  color:var(--muted);border-radius:10px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;
+  box-shadow:var(--shadow)}
+#theme:hover{color:var(--ink)}
+
+footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+footer a{color:var(--brand2)}
+</style>
+</head>
+<body>
+<button id="theme">☀︎ 浅色</button>
+
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">FLOWGT 每周最佳视频 · 第 02 期</div>
+  <h1>刷 LeetCode，先改观念，<span class="thin">再谈刷法</span></h1>
+  <p class="sub">这一期我把<b>土妹</b>的两个视频合并成了一条：前半讲<b>三个必须先改掉的观念</b>，后半讲<b>刷哪些、什么顺序、刷多少、难度怎么配</b>。选它的原因是——讲刷题的内容满地都是，但绝大多数只给题单不给标准。她给了一个<b>可以自测的"吃透"定义</b>，和一个<b>客观的自测标尺</b>，这两样东西比任何题单都值钱。<b>注意：这是 2020 年的视频</b>，方法论仍然成立，但里面的绝对数字请打折使用——详见最后一节。</p>
+  <div class="pills">
+    <span class="pill hi">👤 嘉宾 <b>土妹（湾区程序员）</b></span>
+    <span class="pill">🎙 主持 <b>（无，本人出镜讲解）</b></span>
+    <span class="pill">🕐 时长 <b>21 分钟（两片合并）</b></span>
+    <span class="pill">🗓 发布 <b>2020-05 / 2020-06</b></span>
+    <span class="pill">✍️ 整理 <b>2026-09-04</b></span>
+    <span class="pill">🌐 语言 <b>中文</b></span>
+  </div>
+  <div class="note" style="margin-top:16px">
+    <b>怎么用这份报告：</b>正文里每个 <button class="pb" data-t="0">00:00</button> 这样的按钮都可以点——
+    下面这个播放器会<b>直接跳到那一秒</b>。往下读时它会自动钉到<b>右下角</b>继续跟着你。
+    全文结论一律标注了时间戳，<b>没有时间戳的段落就是编者按</b>（青色块）。
+  </div>
+
+  <!-- 播放器：大屏在这里；滚过去之后同一个元素 fixed 到右下角(不重新加载,播放不断) -->
+  <div id="stage">
+    <div id="ph"></div>
+    <div id="pbox">
+      <div class="bar">
+        <span class="dot" id="pdot"></span>
+        <span class="src" id="psrc">正在准备播放器…</span>
+        <span class="now" id="pnow">0:00</span>
+        <button id="ptop" hidden>⤒ 回到大屏</button>
+        <button id="pmin">收起</button>
+      </div>
+      <div class="frame" id="pframe"></div>
+    </div>
+  </div>
+</header>
+
+<div class="grid">
+<nav class="toc" id="toc">
+  <div class="tt">目录</div>
+  <!-- 每节一行；<div class="sep"></div> 可用来分组 -->
+    <a href="#tldr"><span class="n">00</span><span>先看这个：8 条最重要的结论</span></a>
+  <div class="sep"></div>
+  <a href="#minds"><span class="n">01</span><span>三个必须先改掉的观念</span></a>
+  <a href="#what"><span class="n">02</span><span>刷题到底在练什么</span></a>
+  <a href="#order"><span class="n">03</span><span>刷哪些、按什么顺序</span></a>
+  <a href="#howmany"><span class="n">04</span><span>刷多少才够</span></a>
+  <a href="#deep"><span class="n">05</span><span>什么叫"吃透"</span></a>
+  <a href="#level"><span class="n">06</span><span>难度怎么分配</span></a>
+  <a href="#test"><span class="n">07</span><span>怎么知道自己够了</span></a>
+  <div class="sep"></div>
+  <a href="#action"><span class="n">08</span><span>本周行动清单（编者）</span></a>
+  <a href="#quotes"><span class="n">09</span><span>金句索引（可回放）</span></a>
+  <a href="#source"><span class="n">10</span><span>来源与口径</span></a>
+</nav>
+
+<main>
+  <!-- 00 节永远是「先看这个：N 条最重要的结论」，用 .takes/.take 卡片 -->
+  
+<section id="tldr">
+  <h2><span class="idx">00</span>先看这个：8 条最重要的结论</h2>
+  <p class="lead">如果你只有 3 分钟，读这一屏就够。每条后面的按钮是她说这句话的原始位置，点了就跳过去。</p>
+
+  <div class="takes">
+    <div class="take">
+      <div class="n">01 · 别再自我豁免</div>
+      <h4>资深不是免死金牌，只要考 code 就得刷</h4>
+      <p>她自己 6 年经验，身边有 10 年以上的。她的观察是：<b>除非转管理岗，做技术的在美国基本都会考 coding</b>——资深反而更该刷，因为你输不起。</p>
+      <div class="foot"><button class="pb" data-t="112">01:52</button></div>
+    </div>
+    <div class="take">
+      <div class="n">02 · 关键区分</div>
+      <h4>项目练不出"半小时 + bug free"</h4>
+      <p>项目可以做几天几个月、写完再测再改；面试是<b>半小时内交付一个完整功能且一次写对</b>。这是两种能力，项目经验再多也不自动迁移。</p>
+      <div class="foot"><button class="pb" data-t="205">03:25</button> <button class="pb" data-t="237">03:57</button></div>
+    </div>
+    <div class="take">
+      <div class="n">03 · 反驳"拧螺丝"</div>
+      <h4>真正要掌握的就六样，全都用得到</h4>
+      <p>双指针、滑动窗口、二分查找、BFS、DFS、回溯——她说这些"最基础"的东西工作中<b>肯定用得到</b>。被嘲笑的是偏题怪题，不是这些。</p>
+      <div class="foot"><button class="pb" data-t="323">05:23</button> <button class="pb" data-t="292">04:52</button></div>
+    </div>
+    <div class="take">
+      <div class="n">04 · 面试官视角</div>
+      <h4>她当面试官时，故意出简单题</h4>
+      <p>因为大部分公司要的不是特别聪明的人，是<b>踏实能干活的人</b>。简单题上看的是：流畅、规整、可读性、bug free——<b>做出来只是及格线</b>。</p>
+      <div class="foot"><button class="pb" data-t="561">09:21</button> <button class="pb" data-t="602">10:02</button></div>
+    </div>
+    <div class="take">
+      <div class="n">05 · 方法</div>
+      <h4>按章节刷，不要随机刷</h4>
+      <p>一套"中学学习法"：<b>教材例题 → LeetCode 同标签高频题 → 热题冲刺</b>。一周只做字符串，接下来两周只做数组。随机刷题是记不住的。</p>
+      <div class="foot"><button class="pb" data-t="663">11:03</button> <button class="pb" data-t="827">13:47</button></div>
+    </div>
+    <div class="take">
+      <div class="n">06 · 数量</div>
+      <h4>400–500 道就够，她自己刷了将近 500</h4>
+      <p>甚至"有人只刷了 200–300 道就能去面谷歌"。<b>数量根本不是标准</b>——但前提是每一道都真吃透了。</p>
+      <div class="foot"><button class="pb" data-t="949">15:49</button> <button class="pb" data-t="1024">17:04</button></div>
+    </div>
+    <div class="take">
+      <div class="n">07 · 最有价值的一条</div>
+      <h4>"吃透"有个可操作的定义</h4>
+      <p>不是看懂，也不是刚看完能默写——是<b>已经基本忘了解法，但你还能自己想出来</b>。这条把一个模糊的词变成了可自测的标准。</p>
+      <div class="foot"><button class="pb" data-t="986">16:26</button></div>
+    </div>
+    <div class="take">
+      <div class="n">08 · 自测</div>
+      <h4>用周赛判断，不要用题量判断</h4>
+      <p>周赛/双周赛<b>前三道稳定做出来、第四道时好时坏</b>，就基本能应付面试了。这是全片唯一一个客观、可复现的标尺。</p>
+      <div class="foot"><button class="pb" data-t="1077">17:57</button></div>
+    </div>
+  </div>
+
+  <div class="editor">
+    <div class="tt">编者按 · 为什么这两个视频要合起来看</div>
+    <p>单看第一个，你会觉得是"鸡汤"——讲的全是观念；单看第二个，你会觉得是"攻略"——讲的全是操作。
+    但它们其实是一件事的两半：<b>第一个解决"你为什么刷不进去"，第二个解决"你该怎么刷"</b>。
+    观念不改，再好的路线图你也执行不下去；只有路线图没有观念，你会刷到 300 道还是虚。
+    所以我把它们拼成了一条 21 分钟的视频。</p>
+  </div>
+</section>
+
+<section id="minds">
+  <h2><span class="idx">01</span>三个必须先改掉的观念</h2>
+  <p class="lead">这是前半段的骨架。三个观念对应三种最常见的自我豁免。</p>
+
+  <h3>观念一 · "我经验够多了，刷题帮不了我"</h3>
+  <p>她说这种人通常有两个理由：一是<b>自负</b>——"我是个多牛的程序员，还需要靠这个？"；
+  二是<b>觉得资深该考 system design</b>，刷题是初级选手的事。<button class="pb" data-t="60">01:00</button></p>
+  <div class="quote">
+    "除非是做 manager，就是管理相关的职位了，那只要你是做技术的，一般来说在美国都会考 coding。"
+    <span class="who">土妹 · <button class="pb" data-t="112">01:52</button></span>
+  </div>
+  <p>还有一个变体是"只有大厂才看重刷题，小公司更看实际工程能力"。她的回应很简单：
+  <b>只要那家公司有 coding 环节，刷题就有帮助</b>，因为项目里能接触到的和刷题磨练的不是一回事。<button class="pb" data-t="130">02:10</button></p>
+
+  <h3>观念二 · "这些算法工作里根本用不到"</h3>
+  <p>这就是那句流传很广的讽刺——</p>
+  <div class="quote t3">
+    "很多人会说什么'面试造火箭，进去拧螺丝'什么什么的，来讽刺很多现象。"
+    <span class="who">土妹（引用他人说法）· <button class="pb" data-t="292">04:52</button></span>
+  </div>
+  <p>她的反驳分两层。第一层：<b>真正要掌握的就那么几样，而且都用得到</b>——
+  双指针、滑动窗口、二分查找、BFS、DFS、回溯法。<button class="pb" data-t="323">05:23</button>
+  第二层更狠：<b>"如果一个人连题目都刷不好，那他的编程能力是肯定有问题的。"</b></p>
+  <p>至于那些真正的偏题怪题，她的态度是<b>可以先放一放</b>，别跟自己较劲——
+  现在题目那么多，先把主流核心题做好。<button class="pb" data-t="260">04:20</button></p>
+
+  <h3>观念三 · "题目做出来 / AC 了就算完事"</h3>
+  <p>她说这条大家其实都听过，但就是<b>懒得改</b>——AC 了就下一题。
+  而这件事在面试里"别人都是可以看得出来的"。<button class="pb" data-t="534">08:54</button></p>
+  <div class="quote t2">
+    "我喜欢出一些简单一点的题目……他只要需要一个比较踏实、能干活的人就可以。"
+    <span class="who">土妹（作为面试官）· <button class="pb" data-t="561">09:21</button></span>
+  </div>
+  <p>那出了简单题看什么？看你能不能把它写得<b>流畅、规整、可读性好、而且 bug free</b>——
+  她的原话是"看是不是扎实"。<button class="pb" data-t="602">10:02</button></p>
+  <div class="editor">
+    <div class="tt">编者按 · 这三条其实是同一条</div>
+    <p>三个观念的共同点是<b>都在给自己找一个不认真的理由</b>：我资历够了、这东西没用、我做出来了。
+    她的反驳也是同一个：<b>面试考的从来不是"你会不会"，是"你在半小时的压力下能交付到什么质量"</b>。
+    你越是资深，越应该在意后半句——因为面试官对你的质量预期更高。</p>
+  </div>
+</section>
+
+<section id="what">
+  <h2><span class="idx">02</span>刷题到底在练什么</h2>
+  <p class="lead">这是她讲得最具体、也最容易被跳过的一段。如果你说不清刷题练的是什么，你就会刷得很敷衍。</p>
+
+  <div class="stats">
+    <div class="stat"><div class="num warn">半小时</div><div class="cap">面试里交付一个完整功能的时间预算<br><button class="pb" data-t="205">03:25</button></div></div>
+    <div class="stat"><div class="num bad">一次写对</div><div class="cap">bug free：写完就没 bug，不靠事后测<br><button class="pb" data-t="440">07:20</button></div></div>
+    <div class="stat"><div class="num good">六种算法</div><div class="cap">双指针/滑窗/二分/BFS/DFS/回溯<br><button class="pb" data-t="323">05:23</button></div></div>
+    <div class="stat"><div class="num good">五六百题</div><div class="cap">她刷到这个量后"编程能力上了一个台阶"<br><button class="pb" data-t="354">05:54</button></div></div>
+  </div>
+
+  <p>她把刷题练出来的东西拆成三样，我觉得这个拆法比"练算法"准确得多：</p>
+  <ul class="chk">
+    <li><b>① 限时交付能力</b>
+      <span class="why">项目可以做几天几个月，刷题是半小时内做出一个比较完整的功能模块。面试官要在这半小时里判断你——这需要专门训练。<button class="pb" data-t="237">03:57</button></span></li>
+    <li><b>② bug free 的习惯</b>
+      <span class="why">不资深的人写完总要跑一遍、测出一两个 bug 再改。真正的训练是<b>在动手写之前先想清楚怎么设计能少出 bug</b>。<button class="pb" data-t="489">08:09</button></span></li>
+    <li><b>③ 脱离 IDE 的语言熟练度</b>
+      <span class="why">她写了六年 Java，但平时都在 IDE 里靠自动补全。刷题是在白板/纯文本环境写，逼你把基础方法名和用法记牢。<button class="pb" data-t="411">06:51</button></span></li>
+  </ul>
+  <div class="quote">
+    "我刷了有五六百题以后，我的编程能力确实是上升了一个台阶……我可以很快速地把我想要表达的东西用程序表达出来。"
+    <span class="who">土妹 · <button class="pb" data-t="354">05:54</button> <button class="pb" data-t="361">06:01</button></span>
+  </div>
+  <div class="editor">
+    <div class="tt">编者按 · 把第 ② 条当成唯一 KPI</div>
+    <p>三样里最难、也最值钱的是 <b>bug free</b>。限时能力靠练自然会有，语言熟练度靠量自然会有，
+    但"写之前先想设计"是<b>反本能</b>的——人的默认习惯是先写再debug。
+    如果你这一周只改一个习惯，就改这个：<b>每道题在敲第一行之前，先用三句话说清楚你的解法和边界条件</b>。
+    这一个动作，比多刷 50 道题有用。</p>
+  </div>
+</section>
+
+<section id="order">
+  <h2><span class="idx">03</span>刷哪些、按什么顺序：一套"中学学习法"</h2>
+  <p class="lead">后半段的核心。她反复用同一个类比：<b>把刷题当成准备中考高考</b>——教材、课后题、模拟卷，三段式。</p>
+
+  <div class="formula">
+    <em>教材例题</em><span class="x">→</span><em>同标签高频题</em><span class="x">→</span><em>热题冲刺</em>
+  </div>
+
+  <h3>3.1 先定框架：一次只做一个标签</h3>
+  <div class="quote t2">
+    "比如说我们这一周是专门做字符串，接下来两周专门做数组，按一个章节一个章节这样来做。"
+    <span class="who">土妹 · <button class="pb" data-t="666">11:06</button></span>
+  </div>
+  <p>而且最好<b>跟着一本书的章节走</b>——她提到的是《剑指 offer》和《程序员面试经典》，
+  报了算法班也行，重点是"有一个系统的东西"跟着它的章节学。<button class="pb" data-t="693">11:33</button></p>
+
+  <h3>3.2 三步走，每一步都有量化标准</h3>
+  <div class="tw"><table>
+    <thead><tr><th>阶段</th><th>做什么</th><th>量化标准</th><th>时间戳</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>① 教材例题</b></td>
+        <td>先看懂书上这一章的讲解，把书里的例题<b>自己做一遍</b></td>
+        <td>本章例题全部做完</td>
+        <td><button class="pb" data-t="781">13:01</button></td>
+      </tr>
+      <tr>
+        <td><b>② 标签高频题</b></td>
+        <td>打开 LeetCode 选对应标签，<b>按高频排序从上往下刷</b>（会员能看高频排序；没会员她在视频里给了各标签的高频题截图）</td>
+        <td>至少前 <b>15–20</b> 道；她另一处说"一个标签最起码也要做十道"</td>
+        <td><button class="pb" data-t="786">13:06</button> <button class="pb" data-t="860">14:20</button></td>
+      </tr>
+      <tr>
+        <td><b>③ 冲刺</b></td>
+        <td>所有章节都掌握之后，再做<b>热题 100</b> 和<b>精选 top 面试题</b></td>
+        <td>面试前做，相当于高考模拟卷</td>
+        <td><button class="pb" data-t="875">14:35</button> <button class="pb" data-t="904">15:04</button></td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <h3>3.3 两个容易被忽略的小技巧</h3>
+  <ul class="clean">
+    <li><b>做完一题，顺手把它的"相似问题"也做了。</b>尤其是这道你做得坑坑洼洼的——
+      同一标签、同一思路的题放在一起做，是加深记忆最省力的办法。<button class="pb" data-t="796">13:16</button></li>
+    <li><b>不会做的题打标记、加标签，回头复习。</b>她说复习在中学学习里就非常重要，刷题也一样。<button class="pb" data-t="1195">19:55</button></li>
+  </ul>
+
+  <div class="callout">
+    <h3>顺序错了，等于白刷</h3>
+    <p>她一再强调：<b>热题 100 和精选 top 面试题是留到最后冲刺时才做的</b>，不是一上来就做。<button class="pb" data-t="1045">17:25</button></p>
+    <p style="margin-top:8px">理由也讲得很清楚：一上来直接做这些，会太难，而且是打散的、没有体系的——
+    你做完记不住，因为<b>没有"同类题反复出现"来帮你固化</b>。</p>
+  </div>
+</section>
+
+<section id="howmany">
+  <h2><span class="idx">04</span>刷多少才够</h2>
+  <p class="lead">这是所有人都想问的问题，她给了数字，但更重要的是她马上把这个数字否定掉了。</p>
+
+  <div class="quote">
+    "我觉得其实可能 400 左右就非常够了，因为我自己在 LeetCode 这边只有刷了将近 500 道题目，但是我自己觉得我出去面试已经完全没有问题了。"
+    <span class="who">土妹 · <button class="pb" data-t="949">15:49</button></span>
+  </div>
+  <p>她还给了一个更低的下限：<b>有人只刷了 200–300 道，已经可以去面谷歌这样的公司了。</b><button class="pb" data-t="1024">17:04</button></p>
+
+  <div class="quote t2">
+    "我们完全没有必要去追求要做多少道题目，但是每道题目我们都一定要追求把这个题目完全吃透。"
+    <span class="who">土妹 · <button class="pb" data-t="1030">17:10</button></span>
+  </div>
+
+  <div class="editor">
+    <div class="tt">编者按 · 这个数字请打个折再用</div>
+    <p>先说清楚：<b>这是 2020 年的口径</b>（视频里她说"LeetCode 已经有 1600 多道题"，今天早就不止）。
+    题库变大、题目变难、竞争者手里还有 AI，所以"400 道"这个绝对数字我不建议你直接照搬。</p>
+    <p style="margin-top:8px">但她这段话里<b>真正不会过期的是那个结构</b>：
+    <b>数量是结果，不是目标</b>。你该盯的是"每道题的掌握深度"这个变量——
+    数量会跟着它自然长出来。一个只刷了 250 道但道道吃透的人，
+    和一个刷了 800 道但半数记不住的人，面试表现不会是后者赢。</p>
+  </div>
+</section>
+
+<section id="deep">
+  <h2><span class="idx">05</span>什么叫"吃透"：全片最值钱的一条</h2>
+  <p class="lead">"吃透"是个很虚的词。她给了两条能自测的硬标准，这是我认为这两个视频里最有价值的一段。</p>
+
+  <ol class="steps">
+    <li><b>标准一：能完全默写，绝不能复制粘贴。</b>
+      她的原话是"我可以完全默写写出来，绝对不能是你去 copy 代码、复制代码贴上去"——<b>一定要手打，而且不能是抄的</b>。<button class="pb" data-t="968">16:08</button></li>
+    <li><b>标准二（关键）：在你已经基本忘了解法之后，还能自己想出来。</b>
+      刚看懂就默写一遍，<b>不算掌握</b>。<button class="pb" data-t="986">16:26</button></li>
+  </ol>
+
+  <div class="quote t2">
+    "一定要是这道题你看到，而且你已经基本忘记了它的解法，但是你能想到——这样才可以保证在你见到一些没有见过的题目，你也能够做出来。"
+    <span class="who">土妹 · <button class="pb" data-t="986">16:26</button></span>
+  </div>
+
+  <p>她顺手解释了那个所有人都有的困惑——<b>"为什么我当时看懂了，过几天就不会了？"</b>
+  她的答案是：你只是"看懂"，没有"吃透"，理解是有层次的，你停在了浅的那层。<button class="pb" data-t="1001">16:41</button></p>
+
+  <div class="editor">
+    <div class="tt">编者按 · 把它变成一个具体动作</div>
+    <p>标准二其实描述的就是<b>间隔重复</b>，只是她没用这个词。它可以直接变成一条操作：
+    <b>做完一道题，在日历上排一个 5–7 天后的复做，不看笔记、不看代码，从零再写一遍。</b>
+    写得出来 = 吃透；写不出来 = 你之前那次只是抄了一遍。</p>
+    <p style="margin-top:8px">这也解释了为什么她的"400 道"能顶别人的 800 道——
+    <b>她的 400 是复做过的 400</b>。真按这个标准执行，你的实际做题次数大概是题目数的两倍，
+    时间成本别低估了。</p>
+  </div>
+</section>
+
+<section id="level">
+  <h2><span class="idx">06</span>难度怎么分配：不用分配</h2>
+  <p class="lead">很多人纠结"简单/中等/困难该按什么比例刷"。她的回答是：这是个假问题。</p>
+
+  <p>她说不需要刻意去在意"我要做多少简单题、多少中等题"——<b>你按高频顺序刷，比例自然就对了</b>。<button class="pb" data-t="1112">18:32</button>
+  真想知道比例，直接看精选 top 面试题的分布就行：</p>
+
+  <div class="stats">
+    <div class="stat"><div class="num warn">约 60%</div><div class="cap">中等题占比最大（她目测精选题的分布）<br><button class="pb" data-t="1131">18:51</button></div></div>
+    <div class="stat"><div class="num good">热身</div><div class="cap">简单题的定位——刚开始学时做，别做太多<br><button class="pb" data-t="1142">19:02</button></div></div>
+    <div class="stat"><div class="num bad">后期主力</div><div class="cap">中等题为主<br><button class="pb" data-t="1147">19:07</button></div></div>
+    <div class="stat"><div class="num bad">经典必做</div><div class="cap">热题100 与精选里的困难题要弄懂<br><button class="pb" data-t="1156">19:16</button></div></div>
+  </div>
+
+  <p>她特别提到<b>"现在很多公司题目都出得越来越难"</b>，所以简单题不必做太多，
+  后期尽量以中等题为主，经典困难题该啃还是要啃。<button class="pb" data-t="1142">19:02</button></p>
+</section>
+
+<section id="test">
+  <h2><span class="idx">07</span>怎么知道自己够了：去打周赛</h2>
+  <p class="lead">全片唯一一个客观、可复现、不靠感觉的标尺。我认为这条应该被更多人知道。</p>
+
+  <div class="quote t2">
+    "大家可以去参加周赛，还有双周赛。如果你每次都是前面三道题都可以做出来，最后一道题你有时能做出来、有时不能做出来——那应该就是没有太大问题了。"
+    <span class="who">土妹 · <button class="pb" data-t="1074">17:54</button></span>
+  </div>
+
+  <p>她的理由：<b>判断标准不该是"我做了多少题"，而该是"我在限时压力下能做出几道"</b>——
+  后者准确得多。<button class="pb" data-t="1091">18:11</button></p>
+
+  <div class="editor">
+    <div class="tt">编者按 · 周赛为什么比题量诚实</div>
+    <p>因为周赛同时压住了三个变量：<b>限时、没见过的题、一次写对</b>——正好就是第 02 节里她说刷题该练的那三样。
+    刷了多少道是<b>输入</b>，周赛能做几道是<b>输出</b>。人在评估自己的时候总是盯着输入，因为输入是自己能控制的、看着让人安心。</p>
+    <p style="margin-top:8px">给你一个更狠的用法：<b>周赛结束后别看题解，先自己补完</b>。
+    补题的过程才是提升发生的地方，比赛只是测量。</p>
+  </div>
+</section>
+
+<section id="action">
+  <h2><span class="idx">08</span>本周行动清单</h2>
+  <p class="lead">看完不动手等于没看。这一节是我给你们的，不是她的原话——按顺序做，一周做完。</p>
+
+  <ol class="steps">
+    <li><b>先挑一本教材，定下未来 8 周的章节表。</b>《剑指 offer》或《程序员面试经典》都行，重点是<b>有一个固定的章节顺序</b>，不再随机点题。</li>
+    <li><b>这一周只做一个标签。</b>建议从字符串或数组开始。先做完教材这一章的例题，再去 LeetCode 对应标签按高频从上往下刷 15 道。</li>
+    <li><b>建一张刷题台账。</b>题号 / 标签 / 首次日期 / 是否独立做出 / 复做日期 / 复做是否通过。<b>没有"复做"这一列，你就无法验证自己有没有吃透。</b></li>
+    <li><b>给每道题排一次 5–7 天后的复做。</b>不看笔记从零重写。写不出来的，说明上一次只是抄了一遍——重新算作没做。</li>
+    <li><b>改掉"先写再 debug"的习惯。</b>敲第一行之前，先用三句话写下解法和边界条件。这是全片最反本能、也最值钱的一个动作。</li>
+    <li><b>这周末去打一场周赛。</b>不为名次，只为拿到一个客观读数：我现在能稳定做出几道。赛后自己补题，别急着看题解。</li>
+    <li><b>把热题 100 和精选 top 面试题从你的计划里拿出来。</b>它们是冲刺卷，现在做只会打乱体系——放到面试前 3–4 周再说。</li>
+  </ol>
+
+  <div class="callout">
+    <h3>一句话</h3>
+    <p>这两个视频最值钱的不是"刷 400 道就够了"——那是 2020 年的数字，别照抄。
+    最值钱的是她把"吃透"定义成了一件<b>可以自测的事</b>：
+    <b>忘了解法之后你还能想出来，才算数。</b><br>
+    按这个标准，你会发现自己"做过"的题里，真正属于你的可能不到三分之一。
+    这一周，先别急着往前刷——<b>回头把已经做过的题验一遍</b>。</p>
+  </div>
+</section>
+
+<section id="quotes">
+  <h2><span class="idx">09</span>金句索引（点按钮直接回放）</h2>
+  <p class="lead">按时间顺序排列。想快速重听哪一段，从这里跳。前半是观念，后半是方法。</p>
+  <div class="card qb">
+    <div class="qbi"><div class="t"><button class="pb" data-t="112">01:52</button></div><div class="s">"除非是做 manager……只要你是做技术的，一般来说在美国都会考 coding。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="205">03:25</button></div><div class="s">项目要做几天几个月，刷题是"你需要在半个小时"内做出一个完整功能。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="237">03:57</button></div><div class="s">"别人需要的是在短短的半个小时的时间里就判断你的能力。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="260">04:20</button></div><div class="s">觉得偏门、怪的题，"确实先放一放"——先把主流核心题做好。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="292">04:52</button></div><div class="s">"面试造火箭，进去拧螺丝"——她引用这句讽刺，然后逐条反驳。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="323">05:23</button></div><div class="s">真正要掌握的六样：双指针、滑动窗口、二分查找、BFS、DFS、回溯法。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="354">05:54</button></div><div class="s">"我刷了有五六百题以后，我的编程能力确实是上升了一个台阶。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="411">06:51</button></div><div class="s">IDE 里有自动补全，白板上没有——刷题逼你把基础用法记牢。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="489">08:09</button></div><div class="s">真正的训练是"在写代码之前你先去考虑这个代码怎么设计"才能少出 bug。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="561">09:21</button></div><div class="s">"我喜欢出一些简单一点的题目"——出难题对大部分公司没意义。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="578">09:38</button></div><div class="s">大部分公司"只要需要一个比较踏实、能干活的人就可以"。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="602">10:02</button></div><div class="s">简单题上看的是：流畅、规整、可读性好、bug free——"看是不是扎实"。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="663">11:03</button></div><div class="s">"我们还是要按有一个框架来刷题目"——一周字符串，接下来两周数组。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="786">13:06</button></div><div class="s">标签下的高频题"至少前面 15 到 20 道"。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="796">13:16</button></div><div class="s">做完一题顺手做它的"相似问题"，同标签放一起做加深记忆。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="875">14:35</button></div><div class="s">热题 100 要等"所有的章节我们都全部都掌握"之后再做。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="949">15:49</button></div><div class="s">"可能 400 左右就非常够了"——她自己刷了将近 500 道。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="968">16:08</button></div><div class="s">"我可以完全默写写出来，绝对不能是你去 copy 代码。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="986">16:26</button></div><div class="s"><b>全片最值钱的一句：</b>"你已经基本忘记了它的解法，但是你能想到。"</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1001">16:41</button></div><div class="s">"看懂"和"吃透"是两层，大多数人停在了浅的那层。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1024">17:04</button></div><div class="s">有人只刷 200–300 道，"已经可以去面试谷歌这样的公司了"。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1077">17:57</button></div><div class="s">周赛自测：前三道稳定做出、第四道时好时坏，就够用了。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1131">18:51</button></div><div class="s">难度分布不用自己定——精选题里中等约占 60%。</div></div>
+    <div class="qbi"><div class="t"><button class="pb" data-t="1227">20:27</button></div><div class="s">结语："一定要追求质量，一定要系统"，经常复习，把题目吃透。</div></div>
+  </div>
+</section>
+
+<section id="source">
+  <h2><span class="idx">10</span>来源与口径</h2>
+  <div class="card tight">
+    <ul class="clean" style="font-size:13.5px">
+      <li><b>本期是两个视频合并成的一条 21 分钟视频</b>（作者同一人，主题连续）：
+        <br>· 前半 <b>00:00–10:42</b>《刷 leetcode 前你必须要改变的三个观念》· 发布 2020-05-03 ·
+        <a href="https://youtu.be/UhmhM6CJ5bs" target="_blank" rel="noopener">youtu.be/UhmhM6CJ5bs</a>
+        <br>· 后半 <b>10:42–20:48</b>《LeetCode 1600 多道题目，刷哪些？什么顺序？刷多少？难度怎么分配？》· 发布 2020-06-07 ·
+        <a href="https://youtu.be/d6XqH991bB8" target="_blank" rel="noopener">youtu.be/d6XqH991bB8</a>
+        <br>合并用 ffmpeg 无损拼接（stream copy，未重编码），合并后时长 1248.56 秒 = 两段之和，误差 1e-6 秒。
+        <b>正文所有时间戳都是合并后时间轴。</b></li>
+      <li><b>⚠ 最重要的提醒：这是 2020 年的视频，距今 6 年多。</b>
+        视频里说"LeetCode 已经有 1600 多道题"<button class="pb" data-t="644">10:44</button>，今天题库早已远超这个数。
+        <b>方法论（按章节刷、教材→标签→冲刺、吃透的定义、周赛自测）我认为仍然成立；
+        但一切绝对数字（400–500 道够用、中等占 60%）请打折使用。</b>
+        <span class="hl">［D 级 · 编者判断］</span></li>
+      <li><b>转写来源：</b>两个视频<b>都没有任何字幕</b>（官方和自动都没有），
+        本报告的转写是<b>本地 Whisper（large-v3-turbo）机器转写</b>，录音未上传任何外部服务。
+        已按规矩做幻觉检查：最高重复 4 次且不连续，无整段复读。
+        <span class="hl">［B 级 · 机器转写，非官方字幕］</span></li>
+      <li><b>引述做过同音错字修正：</b>机器转写把 LeetCode 听成"Leadcode / LiCode"、剑指 offer 听成"见纸offer"、
+        二分查找听成"二分查短"、高频听成"高屏"、例题听成"立题"、自动补全听成"自动补权"。
+        <b>引述中已修正这些明显错字，未改动任何原意</b>——点播放按钮可逐句核对。</li>
+      <li><b>标题不一致：</b>YouTube 上第二个视频标题写"1300 多道"，但<b>视频里她说的是"1600 多道"</b>，
+        B 站标题也是 1600。本报告以视频内实际说法为准。</li>
+      <li><b>她的视角：</b>2020 年美国旧金山湾区、6 年以上经验、Java 背景、当过面试官。
+        "只要做技术在美国都会考 coding"是<b>她基于自身与朋友的了解</b>，不是统计数据。
+        <span class="hl">［B 级 · 单一来源自述］</span></li>
+      <li><b>编者按（青色块）与第 08 节行动清单：</b>是我的判断与建议，<b>不是视频原话</b>。
+        <span class="hl">［D 级 · 编者推断］</span></li>
+      <li><b>本报告未收录：</b>视频二里她逐个展示各标签高频题截图的那两分钟
+        <button class="pb" data-t="737">12:17</button>——那是屏幕内容，文字复述没有意义，需要的同学直接看原片。</li>
+    </ul>
+  </div>
+  <div class="note">
+    <b>我最没把握的三条：</b>
+    ① <b>"400–500 道够用"</b>——2020 年口径，且完全取决于目标公司和你的基础，<b>请当成量级感受，不要当成目标</b>；
+    ② <b>"中等题约占 60%"</b>——这是她当时在屏幕上目测精选题的分布，不是统计，今天的构成也已变化；
+    ③ <b>"只要做技术都会考 coding"</b>——这是 2020 年的行业状态。见下面那条跨期对照。
+  </div>
+  <div class="editor">
+    <div class="tt">编者按 · 和第 01 期放在一起看，会有张力</div>
+    <p>第 01 期里 Jobright 的 CTO Ethan 说过一句几乎相反的话：现在面试"让你写个 LeetCode、做个 system design，
+    确实是有点过时了"，越来越多公司改成付费<b>试工</b>，看你用 AI 实战解决问题的能力。</p>
+    <p style="margin-top:8px">我不打算替你调和这个矛盾，但可以给你我的读法：<b>两边说的其实是不同的门</b>。
+    LeetCode 依然是大厂和大部分有 coding 环节公司的<b>入场券</b>——过不了这关，后面的都不存在；
+    而 Ethan 描述的是<b>前沿 AI 创业公司</b>的筛选方式在变。
+    对大多数人来说结论是：<b>刷题该刷，但别把它当成全部</b>——它是必要条件，早就不是充分条件了。</p>
+  </div>
+</section>
+
+
+<footer>
+  <p><b>FLOWGT 每周最佳视频</b> · 第 02 期 · 整理于 2026-09-04。<br>
+  这个系列每周挑一个我认为最值得学员花时间的视频，把观点提炼成可回放的报告。
+  报告只做提炼与评注，版权归原作者所有，<b>请务必去看完整原片并给作者点赞</b>：
+  <a href="https://youtu.be/UhmhM6CJ5bs" target="_blank" rel="noopener">youtu.be/UhmhM6CJ5bs（前半）· youtu.be/d6XqH991bB8（后半）</a></p>
+</footer>
+</main>
+</div>
+</div>
+
+<script>
+/* ---------- 主题切换 ---------- */
+(function(){
+  var root=document.documentElement, btn=document.getElementById('theme');
+  var saved=null; try{saved=localStorage.getItem('fgt-theme')}catch(e){}
+  if(saved) root.setAttribute('data-theme',saved);
+  function label(){btn.textContent = root.getAttribute('data-theme')==='light' ? '☾ 深色' : '☀︎ 浅色';}
+  label();
+  btn.addEventListener('click',function(){
+    var t = root.getAttribute('data-theme')==='light' ? 'dark' : 'light';
+    root.setAttribute('data-theme',t); try{localStorage.setItem('fgt-theme',t)}catch(e){} label();
+  });
+})();
+
+/* ---------- 目录高亮 ---------- */
+(function(){
+  var links=[].slice.call(document.querySelectorAll('#toc a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
+  function spy(){
+    var y=window.scrollY+120, cur=secs[0];
+    secs.forEach(function(s){ if(s.offsetTop<=y) cur=s; });
+    links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href')==='#'+cur.id); });
+  }
+  window.addEventListener('scroll',spy,{passive:true}); window.addEventListener('resize',spy); spy();
+})();
+
+/* ================= 播放器 =================
+   顺序:① 本地视频文件 media/video.mp4(最稳:秒开、有声、离线可用)
+        ② 网页是 http(s) 打开的 → YouTube JS API(可无刷新 seek)
+        ③ 网页是 file:// 双击打开的 → YouTube 普通 iframe,每次跳转重载一次
+   为什么要分 ②③:YouTube 的 JS API 在 file:// 下 origin 是 "null",
+   YouTube 会直接拒绝并显示「视频播放器配置错误」。这不是代码 bug,是它的策略。 */
+/* FGT_PARTS —— 分段清单。本期视频可能是若干个原片合并成的一条:
+   start 是该段在**合并后时间轴**上的起点(秒)。单个视频就只写一条 start:0。
+   正文里所有 data-t 都用合并后的时间轴;没有本地文件时,播放器靠这张表
+   把「合并后第 N 秒」换算回「哪个原片的第几秒」。 */
+var FGT_PARTS = [
+  {id:'UhmhM6CJ5bs', start:0,     title:'刷 LeetCode 前必须改变的三个观念'},
+  {id:'d6XqH991bB8', start:642.6, title:'1600 多道题，刷哪些？什么顺序？刷多少？'}
+];
+var FGT_LOCAL = 'media/video.mp4';
+
+function partAt(sec){
+  var p=FGT_PARTS[0];
+  for(var i=0;i<FGT_PARTS.length;i++){ if(sec>=FGT_PARTS[i].start) p=FGT_PARTS[i]; }
+  return p;
+}
+
+var frame  = document.getElementById('pframe'),
+    srcLab = document.getElementById('psrc'),
+    dot    = document.getElementById('pdot'),
+    nowLab = document.getElementById('pnow'),
+    box    = document.getElementById('pbox'),
+    ph     = document.getElementById('ph');
+
+var seekImpl = null;                 /* 由下面三种模式之一填上 */
+var queued   = null;                 /* 播放器还没就绪时先记下来 */
+
+function fmt(s){ s=Math.max(0,Math.floor(s)); return (s/60|0)+':'+('0'+(s%60)).slice(-2); }
+function ready(fn,label,ok){
+  seekImpl=fn; srcLab.innerHTML=label; if(ok) dot.classList.add('on');
+  if(queued!==null){ var q=queued; queued=null; seekImpl(q); }
+}
+
+/* ---- ① 本地文件 ---- */
+(function(){
+  var v=document.createElement('video');
+  v.controls=true; v.preload='metadata'; v.playsInline=true; v.setAttribute('playsinline','');
+  var settled=false;
+  v.addEventListener('loadedmetadata',function(){
+    if(settled) return; settled=true;
+    v.addEventListener('timeupdate',function(){ nowLab.textContent=fmt(v.currentTime); });
+    ready(function(sec){
+      var go=function(){ try{ v.currentTime=sec; }catch(e){}
+                         var p=v.play(); if(p&&p.catch) p.catch(function(){}); };
+      if(v.readyState>=1) go(); else v.addEventListener('loadedmetadata',go,{once:true});
+      /* 有些静态服务器(比如 python -m http.server)不支持 Range 请求,一 seek 就被打回 0。
+         补一次:400ms 后还没落到位就再设一遍。双击本地文件打开时不会有这个问题。 */
+      setTimeout(function(){ if(Math.abs(v.currentTime-sec)>3){ try{ v.currentTime=sec; }catch(e){} } },400);
+    }, (FGT_PARTS.length>1 ? '本地合并视频('+FGT_PARTS.length+' 段) · <b>' : '本地视频 · <b>')
+       +FGT_LOCAL+'</b>', true);
+  });
+  v.addEventListener('error',function(){
+    if(settled) return; settled=true;
+    try{ v.remove(); }catch(e){}
+    useYouTube();
+  });
+  frame.appendChild(v);
+  v.src=FGT_LOCAL;
+  /* 既不成功也不报错(极少数情况)→ 8 秒后走在线 */
+  setTimeout(function(){ if(!settled){ settled=true; try{v.remove()}catch(e){} useYouTube(); } },8000);
+})();
+
+/* ---- ②③ YouTube ---- */
+function useYouTube(){
+  /* JS API 只在真正的 http(s) 页面上可用;file: / data: / blob: 这类没有合法 origin 的
+     页面,YouTube 一律拒绝 enablejsapi 并显示「视频播放器配置错误」→ 走普通 iframe */
+  if(!/^https?:$/.test(location.protocol)) return useYTPlain();
+  useYTApi();
+}
+
+/* ③ file:// —— 普通 iframe,每次跳转重载 */
+function useYTPlain(){
+  frame.innerHTML='<div class="msg"><b>没找到本地视频 '+FGT_LOCAL+'</b>'+
+    '<span>现在用 YouTube 在线播放：点任意时间戳即可跳到那一秒（每次会重载一下播放器）。</span>'+
+    '<span>想要秒开、有声、离线也能用 → 把视频放到 <b>'+FGT_LOCAL+'</b>，见 README。</span></div>';
+  ready(function(sec){
+    var pt=partAt(sec);                       /* 合并时间轴 → 原片 + 段内秒数 */
+    nowLab.textContent=fmt(sec);
+    frame.innerHTML='<iframe allow="autoplay; encrypted-media; fullscreen" allowfullscreen '+
+      'src="https://www.youtube-nocookie.com/embed/'+pt.id+'?start='+Math.floor(sec-pt.start)+
+      '&autoplay=1&rel=0&cc_lang_pref=zh"></iframe>';
+  },'YouTube 在线 · 本地文件模式（每次跳转会重载）',false);
+}
+
+/* ② http(s) —— JS API,可无刷新 seek */
+function useYTApi(){
+  var host=document.createElement('div'); host.id='ytplayer';
+  frame.innerHTML=''; frame.appendChild(host);
+  srcLab.textContent='正在加载 YouTube 播放器…';
+  var s=document.createElement('script'); s.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(s);
+
+  window.onYouTubeIframeAPIReady=function(){
+    var cur=FGT_PARTS[0];
+    var p=new YT.Player('ytplayer',{
+      videoId:cur.id,
+      playerVars:{rel:0,modestbranding:1,playsinline:1,cc_lang_pref:'zh',origin:location.origin},
+      events:{onReady:function(){
+        /* 显示的永远是合并时间轴上的时间,跟正文按钮对得上 */
+        setInterval(function(){ try{ nowLab.textContent=fmt(cur.start+p.getCurrentTime()); }catch(e){} },500);
+        ready(function(sec){
+          var pt=partAt(sec), local=sec-pt.start;
+          if(pt.id!==cur.id){ cur=pt; p.loadVideoById({videoId:pt.id,startSeconds:local}); }
+          else { p.seekTo(local,true); p.playVideo(); }
+        },'YouTube 在线播放'+(FGT_PARTS.length>1?' · 自动切换 '+FGT_PARTS.length+' 段原片':''),true);
+      }}
+    });
+  };
+
+  /* 10 秒还没就绪(断网/被墙/被拦)→ 退到"新标签打开 YouTube 对应位置" */
+  setTimeout(function(){
+    if(seekImpl) return;
+    frame.innerHTML='<div class="msg"><b>播放器没能加载</b>'+
+      '<span>可能是网络受限。点时间戳会改成在新标签打开 YouTube 的对应位置。</span></div>';
+    ready(function(sec){
+      var pt=partAt(sec);
+      window.open('https://www.youtube.com/watch?v='+pt.id+'&t='+Math.floor(sec-pt.start)+'s','_blank','noopener');
+    },'离线降级 · 时间戳将在 YouTube 新标签打开',false);
+  },10000);
+}
+
+/* ---------- 时间戳点击 ---------- */
+function fgtSeek(sec,btn){
+  document.querySelectorAll('.pb.playing').forEach(function(b){ b.classList.remove('playing'); });
+  btn.classList.add('playing');
+  box.classList.remove('min');
+  document.getElementById('pmin').textContent='收起';
+  if(seekImpl) seekImpl(sec); else queued=sec;      /* 还没就绪就排队,就绪后自动补跳 */
+}
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.pb'); if(!b) return;
+  var t=parseFloat(b.getAttribute('data-t')); if(isNaN(t)) return;
+  fgtSeek(t,b);
+});
+
+/* ---------- 大屏 ⇄ 右下角小屏 ---------- */
+(function(){
+  var minBtn=document.getElementById('pmin'), topBtn=document.getElementById('ptop');
+  function sync(){
+    if(!box.classList.contains('pinned')){
+      var r=box.getBoundingClientRect();
+      if(r.bottom < 8){
+        ph.style.height=r.height+'px'; ph.classList.add('on');
+        box.classList.add('pinned'); topBtn.hidden=false;
+      }
+    }else{
+      if(ph.getBoundingClientRect().bottom > 56){
+        box.classList.remove('pinned'); box.classList.remove('min');
+        ph.classList.remove('on'); topBtn.hidden=true; minBtn.textContent='收起';
+      }
+    }
+  }
+  window.addEventListener('scroll',sync,{passive:true});
+  window.addEventListener('resize',sync);
+  minBtn.addEventListener('click',function(){
+    box.classList.toggle('min');
+    this.textContent = box.classList.contains('min') ? '展开' : '收起';
+  });
+  topBtn.addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  sync();
+})();
+</script>
+</body>
+</html>

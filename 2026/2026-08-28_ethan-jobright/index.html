@@ -764,8 +764,20 @@ footer a{color:var(--brand2)}
         ③ 网页是 file:// 双击打开的 → YouTube 普通 iframe,每次跳转重载一次
    为什么要分 ②③:YouTube 的 JS API 在 file:// 下 origin 是 "null",
    YouTube 会直接拒绝并显示「视频播放器配置错误」。这不是代码 bug,是它的策略。 */
-var FGT_VIDEO_ID = 'BR3hN7InkmY';
-var FGT_LOCAL    = 'media/video.mp4';
+/* FGT_PARTS —— 分段清单。本期视频可能是若干个原片合并成的一条:
+   start 是该段在**合并后时间轴**上的起点(秒)。单个视频就只写一条 start:0。
+   正文里所有 data-t 都用合并后的时间轴;没有本地文件时,播放器靠这张表
+   把「合并后第 N 秒」换算回「哪个原片的第几秒」。 */
+var FGT_PARTS = [
+  {id:'BR3hN7InkmY', start:0, title:'AI 时代找工作的难度，远超你想象'}
+];
+var FGT_LOCAL = 'media/video.mp4';
+
+function partAt(sec){
+  var p=FGT_PARTS[0];
+  for(var i=0;i<FGT_PARTS.length;i++){ if(sec>=FGT_PARTS[i].start) p=FGT_PARTS[i]; }
+  return p;
+}
 
 var frame  = document.getElementById('pframe'),
     srcLab = document.getElementById('psrc'),
@@ -798,7 +810,8 @@ function ready(fn,label,ok){
       /* 有些静态服务器(比如 python -m http.server)不支持 Range 请求,一 seek 就被打回 0。
          补一次:400ms 后还没落到位就再设一遍。双击本地文件打开时不会有这个问题。 */
       setTimeout(function(){ if(Math.abs(v.currentTime-sec)>3){ try{ v.currentTime=sec; }catch(e){} } },400);
-    }, '本地视频 · <b>'+FGT_LOCAL+'</b>', true);
+    }, (FGT_PARTS.length>1 ? '本地合并视频('+FGT_PARTS.length+' 段) · <b>' : '本地视频 · <b>')
+       +FGT_LOCAL+'</b>', true);
   });
   v.addEventListener('error',function(){
     if(settled) return; settled=true;
@@ -825,9 +838,10 @@ function useYTPlain(){
     '<span>现在用 YouTube 在线播放：点任意时间戳即可跳到那一秒（每次会重载一下播放器）。</span>'+
     '<span>想要秒开、有声、离线也能用 → 把视频放到 <b>'+FGT_LOCAL+'</b>，见 README。</span></div>';
   ready(function(sec){
+    var pt=partAt(sec);                       /* 合并时间轴 → 原片 + 段内秒数 */
     nowLab.textContent=fmt(sec);
     frame.innerHTML='<iframe allow="autoplay; encrypted-media; fullscreen" allowfullscreen '+
-      'src="https://www.youtube-nocookie.com/embed/'+FGT_VIDEO_ID+'?start='+Math.floor(sec)+
+      'src="https://www.youtube-nocookie.com/embed/'+pt.id+'?start='+Math.floor(sec-pt.start)+
       '&autoplay=1&rel=0&cc_lang_pref=zh"></iframe>';
   },'YouTube 在线 · 本地文件模式（每次跳转会重载）',false);
 }
@@ -841,12 +855,18 @@ function useYTApi(){
   document.head.appendChild(s);
 
   window.onYouTubeIframeAPIReady=function(){
+    var cur=FGT_PARTS[0];
     var p=new YT.Player('ytplayer',{
-      videoId:FGT_VIDEO_ID,
+      videoId:cur.id,
       playerVars:{rel:0,modestbranding:1,playsinline:1,cc_lang_pref:'zh',origin:location.origin},
       events:{onReady:function(){
-        setInterval(function(){ try{ nowLab.textContent=fmt(p.getCurrentTime()); }catch(e){} },500);
-        ready(function(sec){ p.seekTo(sec,true); p.playVideo(); },'YouTube 在线播放',true);
+        /* 显示的永远是合并时间轴上的时间,跟正文按钮对得上 */
+        setInterval(function(){ try{ nowLab.textContent=fmt(cur.start+p.getCurrentTime()); }catch(e){} },500);
+        ready(function(sec){
+          var pt=partAt(sec), local=sec-pt.start;
+          if(pt.id!==cur.id){ cur=pt; p.loadVideoById({videoId:pt.id,startSeconds:local}); }
+          else { p.seekTo(local,true); p.playVideo(); }
+        },'YouTube 在线播放'+(FGT_PARTS.length>1?' · 自动切换 '+FGT_PARTS.length+' 段原片':''),true);
       }}
     });
   };
@@ -857,7 +877,8 @@ function useYTApi(){
     frame.innerHTML='<div class="msg"><b>播放器没能加载</b>'+
       '<span>可能是网络受限。点时间戳会改成在新标签打开 YouTube 的对应位置。</span></div>';
     ready(function(sec){
-      window.open('https://www.youtube.com/watch?v='+FGT_VIDEO_ID+'&t='+Math.floor(sec)+'s','_blank','noopener');
+      var pt=partAt(sec);
+      window.open('https://www.youtube.com/watch?v='+pt.id+'&t='+Math.floor(sec-pt.start)+'s','_blank','noopener');
     },'离线降级 · 时间戳将在 YouTube 新标签打开',false);
   },10000);
 }

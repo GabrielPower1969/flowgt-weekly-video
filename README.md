@@ -16,6 +16,7 @@
 
 | 期 | 日期 | 主题 | 主角 | 报告 |
 |---|---|---|---|---|
+| 02 | 2026-09-04 | 刷 LeetCode：先改观念，再谈刷法 | 土妹（湾区程序员） | [在线读](https://gabrielpower1969.github.io/flowgt-weekly-video/2026/2026-09-04_tumei-leetcode/) · 原片 [前](https://youtu.be/UhmhM6CJ5bs) [后](https://youtu.be/d6XqH991bB8) |
 | 01 | 2026-08-28 | AI 时代找工作的难度，远超你想象 | Ethan（Jobright 联创 / CTO） | [在线读](https://gabrielpower1969.github.io/flowgt-weekly-video/2026/2026-08-28_ethan-jobright/) · [原片](https://youtu.be/BR3hN7InkmY) |
 
 > GitHub 仓库页里点 `.html` 只会看到源码，**要发给别人请用上面的 Pages 链接。**

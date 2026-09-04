@@ -1,0 +1,11 @@
+# 第 02 期 —— 两个视频合并成一条
+# 合并方式: ffmpeg concat demuxer, stream copy(无损,未重编码)
+# 合并后时长 = 1248.560181s (= 642.635465 + 605.924717, 误差 1e-6)
+# 正文所有时间戳均为合并后时间轴
+
+part1	id=UhmhM6CJ5bs	start=0		dur=642.635465	upload=20200503	刷leetcode前你必须要改变的三个观念
+part2	id=d6XqH991bB8	start=642.6	dur=605.924717	upload=20200607	Leetcode（力扣）1600多道题目，刷哪些？什么顺序？刷多少？难度怎么分配？
+
+uploader=土妹土妹
+video=720p H.264 + AAC(两片可用的最高画质,无 1080p 源)
+transcript=本地 mlx-whisper large-v3-turbo(两片均无官方/自动字幕);已做幻觉检查,无整段复读

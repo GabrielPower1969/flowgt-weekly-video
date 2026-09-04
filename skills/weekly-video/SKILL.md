@@ -40,7 +40,7 @@ description: 把一个视频（YouTube / B站 / 本地录制）做成一份"观�
    收录时要写明是主持人说的。
 7. **临时文件不留。** 中间产物处理完删掉；本期目录里只留
    `index.html` / `meta.txt` / `transcript.srt` / `blocks.txt` / `media/video.mp4`，
-   后三样被 `.gitignore` 挡住，不进仓库。
+   后三样被 `.gitignore` 挡住，不进仓库。合并用的 `parts/` 目录**处理完删掉**。
 
 ---
 
@@ -53,6 +53,7 @@ skills/weekly-video/scripts/fetch.sh "<视频URL>" "2026/<日期>_<主角>-<主�
 ```
 
 - 优先用**官方字幕**（时间戳准、无幻觉）；没有才回落本地 whisper。
+  没字幕是常态——第 02 期两个视频就都没有，全靠本地 whisper。
 - whisper 回落时必查幻觉：整段重复同一句（"Thank you." / "字幕志愿者…"）就加
   `--condition-on-previous-text False` 重跑。
 - **视频本体一定要下**，落在 `<本期>/media/video.mp4`。理由见下面「播放器」一节——
@@ -111,15 +112,49 @@ python3 skills/weekly-video/scripts/check_report.py <本期>/index.html <本期>
 
 ---
 
+## 一期涵盖多个视频（合并）
+
+同一作者的系列、或两个互补的短视频，可以合并成一条再做一期报告：
+
+```bash
+skills/weekly-video/scripts/merge.sh "2026/<日期>_<主角>-<主题>" "<URL1>" "<URL2>"
+```
+
+三条硬规矩：
+
+1. **先合并，再转写。** 对**合并后的文件**跑转写，字幕时间戳天然就是合并时间轴，
+   不用做偏移换算——少一个出错环节。分别转写再手动加偏移是自找麻烦。
+2. **正文所有 `data-t` 都用合并后时间轴。** 不要混用原片时间。
+3. **`FGT_PARTS` 必须填对。** `merge.sh` 会生成 `parts.json` 直接抄进去：
+
+```js
+var FGT_PARTS = [
+  {id:'UhmhM6CJ5bs', start:0,     title:'第一段标题'},
+  {id:'d6XqH991bB8', start:642.6, title:'第二段标题'}
+];
+```
+
+`start` 是该段在合并后时间轴上的起点（秒）。**没有本地视频时**（比如学员在 Pages 上看），
+播放器靠这张表把「合并后第 N 秒」换算回「哪个原片的第几秒」，
+YouTube 模式下跨段会自动 `loadVideoById` 切换原片。**单个视频的一期就只写一条 `start:0`。**
+
+拼接优先 stream copy（不重编码、无损）；只有各段编码参数不一致时才回退重编码。
+合并后<b>务必核对</b>：合并时长应等于各段之和。
+
+**报告里要写清楚这是合并的**：在「来源与口径」里列出每一段的原片链接和它占据的时间区间。
+
+---
+
 ## 播放器（这一节踩过坑，别改坏）
 
 播放器按这个顺序自己挑，写在 `report_shell.html` 里，一般不需要动：
 
 | 顺序 | 条件 | 行为 |
 |---|---|---|
-| ① | `media/video.mp4` 存在 | 原生 `<video>`：秒开、有声、离线可用、seek 精确。**默认走这条** |
+| ① | `media/video.mp4` 存在 | 原生 `<video>`：秒开、有声、离线可用、seek 精确。**默认走这条**（合并视频也走这条，单文件） |
 | ② | 没有本地文件，且页面是 `http(s)` 打开的 | YouTube IFrame JS API，可无刷新 seek |
 | ③ | 没有本地文件，且页面是 `file:`（或 data:/blob:） | YouTube 普通 iframe，每次跳转 `?start=` 重载一次 |
+| — | 多段合并的一期 | ②③④ 都按 `FGT_PARTS` 把合并时间换算回原片时间，跨段自动切视频 |
 | ④ | 10 秒还没就绪（断网/被墙） | 点时间戳改成在新标签打开 YouTube 对应位置 |
 
 **为什么必须本地文件优先：** YouTube 的 JS API 需要一个合法 origin。
